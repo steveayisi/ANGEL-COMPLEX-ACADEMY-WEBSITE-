@@ -13,7 +13,7 @@ import {
 const About = () => {
   const achievements = [
     {
-      year: "2010",
+      year: "1999",
       title: "School Founded",
       description:
         "Angels Complex Academy was established with a vision to provide quality education.",
