@@ -14,19 +14,19 @@ import angelsPic from "../assets/angelspic.jpg";
 const About = () => {
   const achievements = [
     {
-      year: "1999",
+      year: "1993",
       title: "School Founded",
       description:
         "Angels Complex Academy was established with a vision to provide quality education.",
     },
     {
-      year: "2015",
+      year: "2005",
       title: "Expansion",
       description:
         "Added junior high school program to serve students through JHS 3.",
     },
     {
-      year: "2018",
+      year: "2017",
       title: "Recognition",
       description:
         "Received excellence award for outstanding academic performance.",
@@ -76,19 +76,19 @@ const About = () => {
       {/* Hero Section */}
       <section className="relative py-40">
         {/* Background Image */}
-        <div 
+        <div
           className="absolute inset-0 w-full h-full"
           style={{
             backgroundImage: `url(${angelsPic})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat'
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
           }}
         >
           {/* Dark Overlay */}
           <div className="absolute inset-0 bg-black opacity-50"></div>
         </div>
-        
+
         {/* Content */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
