@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, GraduationCap, Phone, Mail, MapPin } from "lucide-react";
+import logo from "../assets/logo angels.jpg";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -27,8 +28,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
-              <Link to="/" className="flex items-center space-x-2">
-                <GraduationCap className="h-8 w-8 text-blue-600" />
+              <Link to="/" className="flex items-center space-x-3">
+                <img 
+                  src={logo} 
+                  alt="Angels Complex Academy Logo" 
+                  className="h-12 w-auto"
+                />
                 <div>
                   <h1 className="text-xl font-bold text-gray-900">
                     Angels Complex Academy
