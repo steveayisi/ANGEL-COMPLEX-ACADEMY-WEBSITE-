@@ -96,37 +96,43 @@ const Admissions = () => {
       level: "Creche",
       registration: "GH₵ 200",
       termly: "GH₵ 800",
-      feeding: "GH₵ 300",
+      feeding: "GH₵ 000",
     },
     {
       level: "Nursery 1 & 2",
-      registration: "GH₵ 250",
-      termly: "GH₵ 1,000",
-      feeding: "GH₵ 350",
+      registration: "GH₵ 100",
+      termly: "GH₵ 770",
+      feeding: "GH₵ 000",
     },
     {
       level: "KG 1 & 2",
-      registration: "GH₵ 300",
-      termly: "GH₵ 1,200",
-      feeding: "GH₵ 400",
+      registration: "GH₵ 100",
+      termly: "GH₵ 770",
+      feeding: "GH₵ 000",
     },
     {
       level: "Primary 1-3",
-      registration: "GH₵ 350",
-      termly: "GH₵ 1,500",
-      feeding: "GH₵ 450",
+      registration: "GH₵ 100",
+      termly: "GH₵ 715",
+      feeding: "GH₵ 000",
     },
     {
       level: "Primary 4-6",
-      registration: "GH₵ 400",
-      termly: "GH₵ 1,800",
-      feeding: "GH₵ 500",
+      registration: "GH₵ 100",
+      termly: "GH₵ 740",
+      feeding: "GH₵ 000",
     },
     {
-      level: "JHS 1-3",
-      registration: "GH₵ 500",
-      termly: "GH₵ 2,200",
-      feeding: "GH₵ 600",
+      level: "JHS 1-2",
+      registration: "GH₵ 200",
+      termly: "GH₵ 900",
+      feeding: "GH₵ 000",
+    },
+    {
+      level: "JHS 3",
+      registration: "GH₵ 200",
+      termly: "GH₵ 1500",
+      feeding: "GH₵ 000",
     },
   ];
 
@@ -471,7 +477,7 @@ const Admissions = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-lg">Phone</h3>
-                    <p className="text-gray-600">+233 XX XXX XXXX</p>
+                    <p className="text-gray-600">+233 24 469 0571</p>
                     <p className="text-gray-600">+233 XX XXX XXXX</p>
                   </div>
                 </div>

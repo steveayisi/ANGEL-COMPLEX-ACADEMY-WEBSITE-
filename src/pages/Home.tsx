@@ -78,8 +78,8 @@ const Home = () => {
 
   const stats = [
     { number: "500+", label: "Students" },
-    { number: "50+", label: "Teachers" },
-    { number: "15+", label: "Years Experience" },
+    { number: "30+", label: "Teachers" },
+    { number: "30+", label: "Years Experience" },
     { number: "10+", label: "Clubs & Activities" },
   ];
 

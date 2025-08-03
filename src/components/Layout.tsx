@@ -32,7 +32,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 <img 
                   src={logo} 
                   alt="Angels Complex Academy Logo" 
-                  className="h-12 w-auto"
+                  className="h-12 w-12 rounded-full object-cover"
                 />
                 <div>
                   <h1 className="text-xl font-bold text-gray-900">
@@ -113,7 +113,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 <img 
                   src={logo} 
                   alt="Angels Complex Academy Logo" 
-                  className="h-16 w-auto"
+                  className="h-16 w-16 rounded-full object-cover"
                 />
                 <div>
                   <h3 className="text-xl font-bold">Angels Complex Academy</h3>
@@ -169,7 +169,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <div className="space-y-2">
                 <div className="flex items-center space-x-2">
                   <Phone className="h-4 w-4 text-blue-400" />
-                  <span className="text-gray-400">+233 XX XXX XXXX</span>
+                  <span className="text-gray-400">+233 24 469 0571</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <Mail className="h-4 w-4 text-blue-400" />
@@ -179,7 +179,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 </div>
                 <div className="flex items-center space-x-2">
                   <MapPin className="h-4 w-4 text-blue-400" />
-                  <span className="text-gray-400">Accra, Ghana</span>
+                  <span className="text-gray-400">Sowutuom, Accra, Ghana</span>
                 </div>
               </div>
             </div>

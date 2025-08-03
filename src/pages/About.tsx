@@ -113,7 +113,7 @@ const About = () => {
                 Our Story
               </h2>
               <p className="text-lg text-gray-600 mb-6">
-                Angels Complex Academy was founded in 1999 with a simple yet
+                Angels Complex Academy was founded in 1993 with a simple yet
                 powerful vision: to provide quality education that nurtures the
                 whole child - academically, socially, and morally.
               </p>
@@ -133,7 +133,7 @@ const About = () => {
               <div className="text-center">
                 <GraduationCap className="h-16 w-16 text-blue-600 mx-auto mb-4" />
                 <h3 className="text-2xl font-semibold mb-4">
-                  15+ Years of Excellence
+                  30+ Years of Excellence
                 </h3>
                 <p className="text-gray-600">
                   Serving the community with dedication and producing graduates
@@ -269,7 +269,7 @@ const About = () => {
                 Proven Track Record
               </h3>
               <p className="text-gray-600">
-                15+ years of excellence in education with outstanding student
+                30+ years of excellence in education with outstanding student
                 achievements.
               </p>
             </div>
