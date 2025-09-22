@@ -1,22 +1,20 @@
-import React, { useState } from 'react';
-import { Calendar, CheckCircle, Phone, Mail, MapPin, Clock, Users, Download } from "lucide-react";
-import * as htmlToImage from 'html-to-image';
-import * as XLSX from 'xlsx';
-const PASSCODE = import.meta.env.VITE_ADMIN_PASSCODE || 'ACA-ADMIN-2025';
-
-interface FormData {
-  parentName: string;
-  childName: string;
-  age: string;
-  level: string;
-  phone: string;
-  email: string;
-  message: string;
-}
- 
+import React, { useState } from "react";
+import { supabase } from "../supabaseClient";
+import {
+  Calendar,
+  FileText,
+  CheckCircle,
+  Phone,
+  Mail,
+  MapPin,
+  Clock,
+  DollarSign,
+  Users,
+  BookOpen,
+} from "lucide-react";
 
 const Admissions = () => {
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState({
     parentName: "",
     childName: "",
     age: "",
@@ -25,103 +23,63 @@ const Admissions = () => {
     email: "",
     message: "",
   });
-  
-  const [showPreview, setShowPreview] = useState(false);
-  const masterFileName = 'angels_academy_applications.xlsx';
-  const previewRef = React.useRef<HTMLDivElement | null>(null);
-  const [adminCode, setAdminCode] = useState('');
-  const [adminError, setAdminError] = useState('');
 
-  const readMasterFile = async () => {
-    try {
-      const existingData = localStorage.getItem('applications');
-      return existingData ? JSON.parse(existingData) : [];
-    } catch (error) {
-      console.error('Error reading master file:', error);
-      return [];
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   // Submit to Supabase
+  //   const { error } = await supabase.from("admissions").insert([
+  //     {
+  //       parent_name: formData.parentName,
+  //       child_name: formData.childName,
+  //       age: formData.age,
+  //       level: formData.level,
+  //       phone: formData.phone,
+  //       email: formData.email,
+  //       message: formData.message,
+  //     },
+  //   ]);
+  //   if (error) {
+  //     alert("Submission failed!");
+  //   } else {
+  //     alert("Thank you for your inquiry! We will contact you soon.");
+  //     setFormData({
+  //       parentName: "",
+  //       childName: "",
+  //       age: "",
+  //       level: "",
+  //       phone: "",
+  //       email: "",
+  //       message: "",
+  //     });
+  //   }
+  // };
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const applicationData = {
-        ...formData,
-        submissionDate: new Date().toLocaleString(),
-        applicationId: `ACA${Date.now()}`,
-      };
-
-      // Read existing applications
-      const existingApplications = await readMasterFile();
-      
-      // Add new application
-      const updatedApplications = [...existingApplications, applicationData];
-      
-      // Save to localStorage
-      localStorage.setItem('applications', JSON.stringify(updatedApplications));
-
-  // Show preview
-  setShowPreview(true);
-      
-      // Create master Excel file
-      const masterWsData = [
-        ['Angels Complex Academy - All Applications'],
-        ['Last Updated:', new Date().toLocaleString()],
-        [''],
-        ['Application ID', 'Submission Date', 'Parent Name', 'Child Name', 'Age', 'Level', 'Phone', 'Email', 'Message']
-      ];
-
-      // Add all applications to the sheet
-      updatedApplications.forEach(app => {
-        masterWsData.push([
-          app.applicationId,
-          app.submissionDate,
-          app.parentName,
-          app.childName,
-          app.age,
-          app.level,
-          app.phone,
-          app.email,
-          app.message
-        ]);
+    const { error } = await supabase.from("admissions").insert([
+      {
+        parent_name: formData.parentName,
+        child_name: formData.childName,
+        age: formData.age,
+        level: formData.level,
+        phone: formData.phone,
+        email: formData.email,
+        message: formData.message,
+      },
+    ]);
+    if (error) {
+      console.error(error); // Add this line
+      alert("Submission failed!");
+    } else {
+      alert("Thank you for your inquiry! We will contact you soon.");
+      setFormData({
+        parentName: "",
+        childName: "",
+        age: "",
+        level: "",
+        phone: "",
+        email: "",
+        message: "",
       });
-
-      // Prepare master data sheet and persist to localStorage only
-      const ws = XLSX.utils.aoa_to_sheet(masterWsData);
-      ws['!cols'] = [
-        { wch: 15 }, { wch: 20 }, { wch: 25 }, { wch: 25 },
-        { wch: 10 }, { wch: 15 }, { wch: 15 }, { wch: 30 }, { wch: 40 }
-      ];
-      const wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, 'All Applications');
-      // Serialize workbook to base64 and store for admin download later
-      const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'base64' });
-      localStorage.setItem('applications_master_xlsx_base64', wbout);
-
-      alert('Application submitted successfully! You can now preview and download an image copy.');
-    } catch (error) {
-      console.error('Error processing application:', error);
-      alert('There was an error processing your application. Please try again.');
-    }
-  };
-
-  const handleAdminDownload = () => {
-    if (adminCode.trim() !== PASSCODE) {
-      setAdminError('Incorrect passcode');
-      return;
-    }
-    setAdminError('');
-    try {
-      const base64 = localStorage.getItem('applications_master_xlsx_base64');
-      if (!base64) {
-        alert('No applications found yet. Submit a form to generate the master file.');
-        return;
-      }
-      const wb = XLSX.read(base64, { type: 'base64' });
-      XLSX.writeFile(wb, masterFileName);
-    } catch (err) {
-      console.error('Failed to download master file', err);
-      alert('Failed to download master file.');
     }
   };
 
@@ -545,110 +503,10 @@ const Admissions = () => {
                 </div>
                 <button
                   type="submit"
-                  className="w-full bg-blue-600 text-white py-3 px-6 rounded-md hover:bg-blue-700 transition-colors font-semibold flex items-center justify-center gap-2"
+                  className="w-full bg-blue-600 text-white py-3 px-6 rounded-md hover:bg-blue-700 transition-colors font-semibold"
                 >
-                  <span>Submit Application</span>
-                  <Download className="h-5 w-5" />
+                  Submit Application
                 </button>
-
-                {showPreview && (
-                  <div ref={previewRef} className="mt-8 p-6 bg-gray-50 rounded-lg">
-                    <h3 className="text-xl font-semibold mb-4">Application Preview</h3>
-                    <div className="space-y-4">
-                      <div>
-                        <p className="text-sm text-gray-600">Parent/Guardian Name</p>
-                        <p className="font-medium">{formData.parentName}</p>
-                      </div>
-                      <div>
-                        <p className="text-sm text-gray-600">Child's Name</p>
-                        <p className="font-medium">{formData.childName}</p>
-                      </div>
-                      <div>
-                        <p className="text-sm text-gray-600">Age</p>
-                        <p className="font-medium">{formData.age}</p>
-                      </div>
-                      <div>
-                        <p className="text-sm text-gray-600">Desired Level</p>
-                        <p className="font-medium">{formData.level}</p>
-                      </div>
-                      <div>
-                        <p className="text-sm text-gray-600">Contact Information</p>
-                        <p className="font-medium">{formData.phone}</p>
-                        <p className="font-medium">{formData.email}</p>
-                      </div>
-                      <div>
-                        <p className="text-sm text-gray-600">Additional Message</p>
-                        <p className="font-medium">{formData.message}</p>
-                      </div>
-
-                      <div className="flex gap-4 mt-6">
-                        <button
-                          onClick={async () => {
-                            try {
-                              if (!previewRef.current) return;
-                              const dataUrl = await htmlToImage.toPng(previewRef.current, { cacheBust: true });
-                              const link = document.createElement('a');
-                              const safeChildName = formData.childName.replace(/[^a-z0-9]/gi, '_').toLowerCase();
-                              link.download = `angels_academy_application_${safeChildName}_${new Date().toISOString().split('T')[0]}.png`;
-                              link.href = dataUrl;
-                              link.click();
-                            } catch (err) {
-                              console.error('Failed to export image', err);
-                              alert('Sorry, could not generate image.');
-                            }
-                          }}
-                          className="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 transition-colors flex items-center gap-2"
-                        >
-                          <Download className="h-4 w-4" />
-                          <span>Download Image Copy</span>
-                        </button>
-                        <button
-                          onClick={() => {
-                            setShowPreview(false);
-                            setFormData({
-                              parentName: "",
-                              childName: "",
-                              age: "",
-                              level: "",
-                              phone: "",
-                              email: "",
-                              message: "",
-                            });
-                          }}
-                          className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition-colors"
-                        >
-                          Submit Another Application
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                <p className="mt-3 text-sm text-gray-500 text-center">
-                  Your application will be saved and you can download a copy for your records
-                </p>
-
-                {/* Admin-only section */}
-                <div className="mt-10 border-t pt-6">
-                  <p className="text-xs uppercase text-gray-500 mb-3">Admin only</p>
-                  <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
-                    <input
-                      type="password"
-                      value={adminCode}
-                      onChange={(e) => setAdminCode(e.target.value)}
-                      className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      placeholder="Enter admin passcode"
-                    />
-                    <button
-                      type="button"
-                      onClick={handleAdminDownload}
-                      className="bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-700"
-                    >
-                      Download Master Excel
-                    </button>
-                  </div>
-                  {adminError && <p className="text-red-600 text-sm mt-2">{adminError}</p>}
-                </div>
               </form>
             </div>
 

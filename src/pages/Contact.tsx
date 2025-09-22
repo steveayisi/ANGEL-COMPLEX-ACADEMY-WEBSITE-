@@ -35,9 +35,9 @@ const Contact = () => {
       icon: Phone,
       title: 'Phone Numbers',
       details: [
-        '+233 24 469 0571 (Main Office)',
-        '+233 24 469 0571 (Admissions)',
-        '+233 24 469 0571 (Emergency)'
+        '+233 XX XXX XXXX (Main Office)',
+        '+233 XX XXX XXXX (Admissions)',
+        '+233 XX XXX XXXX (Emergency)'
       ],
       color: 'bg-blue-100 text-blue-600'
     },
@@ -56,7 +56,7 @@ const Contact = () => {
       title: 'Physical Address',
       details: [
         'Angels Complex Academy',
-        'Sowutuom',
+        '123 Education Street',
         'Accra, Ghana'
       ],
       color: 'bg-purple-100 text-purple-600'
@@ -77,25 +77,25 @@ const Contact = () => {
     {
       name: 'Administration',
       contact: 'admin@angelscomplexacademy.edu.gh',
-      phone: '+233 24 469 0571',
+      phone: '+233 XX XXX XXXX',
       head: 'Mrs. Victoria Ankrah'
     },
     {
       name: 'Admissions Office',
       contact: 'admissions@angelscomplexacademy.edu.gh',
-      phone: '+233 24 469 0571',
+      phone: '+233 XX XXX XXXX',
       head: 'Mr. Kwame Asante'
     },
     {
       name: 'Academic Affairs',
       contact: 'academic@angelscomplexacademy.edu.gh',
-      phone: '+233 24 469 0571',
+      phone: '+233 XX XXX XXXX',
       head: 'Mrs. Grace Mensah'
     },
     {
       name: 'Student Affairs',
       contact: 'students@angelscomplexacademy.edu.gh',
-      phone: '+233 24 469 0571',
+      phone: '+233 XX XXX XXXX',
       head: 'Mr. Joseph Boateng'
     }
   ];

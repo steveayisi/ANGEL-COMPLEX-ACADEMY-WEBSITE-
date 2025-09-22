@@ -13,7 +13,6 @@ import {
   Heart,
   Shield,
 } from "lucide-react";
-import angelsP1c from "../assets/angelsp1c.jpg";
 
 const Home = () => {
   const features = [
@@ -86,29 +85,15 @@ const Home = () => {
   return (
     <div className="bg-white">
       {/* Hero Section */}
-      <section className="relative">
-        {/* Background Image */}
-        <div
-          className="absolute inset-0 w-full h-full"
-          style={{
-            backgroundImage: `url(${angelsP1c})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-          }}
-        >
-          {/* Dark Overlay */}
-          <div className="absolute inset-0 bg-black opacity-40"></div>
-        </div>
-
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-40">
+      <section className="relative bg-gradient-to-r from-blue-600 to-blue-800 text-white">
+        <div className="absolute inset-0 bg-black opacity-20"></div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="text-center">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 text-white">
-              Welcome to{" "}
-              <span className="text-white">Angels Complex Academy</span>
+            <h1 className="text-4xl md:text-6xl font-bold mb-6">
+              Welcome to <span className>Angels Complex Academy</span>
             </h1>
-            <p className="text-xl md:text-2xl mb-8 text-gray-200">
-              Education the best Asset • Nurturing Young Minds • Building Future
+            <p className="text-xl md:text-2xl mb-8 text-blue-100">
+              Educatiion the best Asset • Nurturing Young Minds • Building Future
               Leaders
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -138,7 +123,7 @@ const Home = () => {
               <div key={index} className="text-center">
                 <div className="text-4xl font-bold text-blue-600 mb-2">
                   {stat.number}
-                </div>
+                </div> 
                 <div className="text-gray-600">{stat.label}</div>
               </div>
             ))}

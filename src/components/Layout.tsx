@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Phone, Mail, MapPin } from "lucide-react";
-import logo from "../assets/logo angels.jpg";
+import { Menu, X, GraduationCap, Phone, Mail, MapPin } from "lucide-react";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -28,12 +27,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
-              <Link to="/" className="flex items-center space-x-3">
-                <img 
-                  src={logo} 
-                  alt="Angels Complex Academy Logo" 
-                  className="h-12 w-12 rounded-full object-cover"
-                />
+              <Link to="/" className="flex items-center space-x-2">
+                <GraduationCap className="h-8 w-8 text-blue-600" />
                 <div>
                   <h1 className="text-xl font-bold text-gray-900">
                     Angels Complex Academy
@@ -109,12 +104,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="col-span-1 md:col-span-2">
-              <div className="flex items-center space-x-3 mb-4">
-                <img 
-                  src={logo} 
-                  alt="Angels Complex Academy Logo" 
-                  className="h-16 w-16 rounded-full object-cover"
-                />
+              <div className="flex items-center space-x-2 mb-4">
+                <GraduationCap className="h-8 w-8 text-blue-400" />
                 <div>
                   <h3 className="text-xl font-bold">Angels Complex Academy</h3>
                   <p className="text-gray-400">Education the best Asset</p>
@@ -169,7 +160,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <div className="space-y-2">
                 <div className="flex items-center space-x-2">
                   <Phone className="h-4 w-4 text-blue-400" />
-                  <span className="text-gray-400">+233 24 469 0571</span>
+                  <span className="text-gray-400">+233 XX XXX XXXX</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <Mail className="h-4 w-4 text-blue-400" />
@@ -179,7 +170,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 </div>
                 <div className="flex items-center space-x-2">
                   <MapPin className="h-4 w-4 text-blue-400" />
-                  <span className="text-gray-400">Sowutuom, Accra, Ghana</span>
+                  <span className="text-gray-400">Accra, Ghana</span>
                 </div>
               </div>
             </div>
