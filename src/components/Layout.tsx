@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, GraduationCap, Phone, Mail, MapPin } from "lucide-react";
+import { Menu, X, Phone, Mail, MapPin } from "lucide-react";
+import logoAngels from "../assets/logoAngels.jpg"; // Import your logo
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -28,7 +29,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
               <Link to="/" className="flex items-center space-x-2">
-                <GraduationCap className="h-8 w-8 text-blue-600" />
+                <img
+                  src={logoAngels}
+                  alt="School Logo"
+                  className="h-10 w-10 rounded-full object-cover"
+                />
                 <div>
                   <h1 className="text-xl font-bold text-gray-900">
                     Angels Complex Academy
@@ -105,7 +110,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="col-span-1 md:col-span-2">
               <div className="flex items-center space-x-2 mb-4">
-                <GraduationCap className="h-8 w-8 text-blue-400" />
+                <img
+                  src={logoAngels}
+                  alt="School Logo"
+                  className="h-10 w-10 rounded-full object-cover"
+                />
                 <div>
                   <h3 className="text-xl font-bold">Angels Complex Academy</h3>
                   <p className="text-gray-400">Education the best Asset</p>
