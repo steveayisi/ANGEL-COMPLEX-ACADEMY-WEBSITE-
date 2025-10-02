@@ -136,12 +136,14 @@ const Admissions = () => {
           });
           setErrors({});
         }, 2000);
-        
+
         // Scroll to success message smoothly
         setTimeout(() => {
-          const formSection = document.querySelector('.application-form-section');
+          const formSection = document.querySelector(
+            ".application-form-section"
+          );
           if (formSection) {
-            formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            formSection.scrollIntoView({ behavior: "smooth", block: "start" });
           }
         }, 100);
       } else {
@@ -150,7 +152,8 @@ const Admissions = () => {
     } catch (error) {
       console.error("Submission error:", error);
       setSubmitStatus("error");
-      const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred";
+      const errorMessage =
+        error instanceof Error ? error.message : "An unexpected error occurred";
       setSubmitError(errorMessage);
     } finally {
       setIsSubmitting(false);
@@ -574,10 +577,13 @@ const Admissions = () => {
                     </p>
                   </div>
                   <p className="text-green-700 mt-2">
-                    Thank you for your interest in Angels Complex Academy. We have received your application and will contact you within 24-48 hours to discuss the next steps.
+                    Thank you for your interest in Angels Complex Academy. We
+                    have received your application and will contact you within
+                    24-48 hours to discuss the next steps.
                   </p>
                   <p className="text-green-600 text-sm mt-2 font-medium">
-                    Application ID: #{Date.now().toString().slice(-6)} | Submitted on {new Date().toLocaleDateString()}
+                    Application ID: #{Date.now().toString().slice(-6)} |
+                    Submitted on {new Date().toLocaleDateString()}
                   </p>
                 </div>
               )}
