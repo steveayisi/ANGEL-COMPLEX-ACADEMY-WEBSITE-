@@ -1,20 +1,57 @@
-import React from "react";
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 import {
   GraduationCap,
   Users,
   BookOpen,
   Award,
-  Phone,
-  Mail,
-  MapPin,
   ArrowRight,
   Star,
   Heart,
   Shield,
 } from "lucide-react";
 
+// Import images
+import angels2 from "../assets/angels2.jpg";
+import angelsp1c from "../assets/angelsp1c.jpg";
+import angelspic from "../assets/angelspic.jpg";
+import clubs from "../assets/clubs.jpg";
+
 const Home = () => {
+  // Slideshow images array
+  const heroImages = [
+    {
+      src: angelspic,
+      alt: "Angels Complex Academy - Students Learning",
+    },
+    {
+      src: angels2,
+      alt: "Angels Complex Academy - School Building",
+    },
+    {
+      src: angelsp1c,
+      alt: "Angels Complex Academy - Classroom Activities",
+    },
+    {
+      src: clubs,
+      alt: "Angels Complex Academy - Student Activities",
+    },
+  ];
+
+  // State for current image index
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  // Auto-change images every 5 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) =>
+        prevIndex === heroImages.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 5000); // Change image every 5 seconds
+
+    return () => clearInterval(interval);
+  }, [heroImages.length]);
+
   const features = [
     {
       icon: GraduationCap,
@@ -85,15 +122,51 @@ const Home = () => {
   return (
     <div className="bg-white">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-blue-600 to-blue-800 text-white">
-        <div className="absolute inset-0 bg-black opacity-20"></div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+      <section className="relative h-screen overflow-hidden text-white">
+        {/* Background Images */}
+        <div className="absolute inset-0">
+          {heroImages.map((image, index) => (
+            <div
+              key={index}
+              className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                index === currentImageIndex ? "opacity-100" : "opacity-0"
+              }`}
+              style={{
+                backgroundImage: `url(${image.src})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
+              }}
+            >
+              {/* Dark overlay for better text readability */}
+              <div className="absolute inset-0 bg-black opacity-50"></div>
+            </div>
+          ))}
+        </div>
+
+        {/* Slide indicators */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
+          {heroImages.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentImageIndex(index)}
+              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                index === currentImageIndex
+                  ? "bg-white scale-110"
+                  : "bg-white/50 hover:bg-white/75"
+              }`}
+            />
+          ))}
+        </div>
+
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 h-full flex items-center">
           <div className="text-center">
             <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              Welcome to <span className>Angels Complex Academy</span>
+              Welcome to{" "}
+              <span className="text-yellow-400">Angels Complex Academy</span>
             </h1>
             <p className="text-xl md:text-2xl mb-8 text-blue-100">
-              Educatiion the best Asset • Nurturing Young Minds • Building Future
+              Education the best Asset • Nurturing Young Minds • Building Future
               Leaders
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -123,7 +196,7 @@ const Home = () => {
               <div key={index} className="text-center">
                 <div className="text-4xl font-bold text-blue-600 mb-2">
                   {stat.number}
-                </div> 
+                </div>
                 <div className="text-gray-600">{stat.label}</div>
               </div>
             ))}

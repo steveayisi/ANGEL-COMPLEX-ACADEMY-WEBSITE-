@@ -1,115 +1,144 @@
-import React, { useState } from 'react';
-import { Phone, Mail, MapPin, Clock, MessageSquare, Send, Car, Bus, Users } from 'lucide-react';
+import React, { useState } from "react";
+import {
+  Phone,
+  Mail,
+  MapPin,
+  Clock,
+  MessageSquare,
+  Send,
+  Car,
+  Bus,
+  Users,
+} from "lucide-react";
+
+// Import background image (reusing school building image)
+import angels2 from "../assets/angels2.jpg";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    subject: '',
-    message: ''
+    name: "",
+    email: "",
+    phone: "",
+    subject: "",
+    message: "",
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    alert('Thank you for your message! We will get back to you soon.');
+    console.log("Form submitted:", formData);
+    alert("Thank you for your message! We will get back to you soon.");
     setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      subject: '',
-      message: ''
+      name: "",
+      email: "",
+      phone: "",
+      subject: "",
+      message: "",
     });
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
+  ) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const contactInfo = [
     {
       icon: Phone,
-      title: 'Phone Numbers',
+      title: "Phone Numbers",
       details: [
-        '+233 XX XXX XXXX (Main Office)',
-        '+233 XX XXX XXXX (Admissions)',
-        '+233 XX XXX XXXX (Emergency)'
+        "+233 XX XXX XXXX (Main Office)",
+        "+233 XX XXX XXXX (Admissions)",
+        "+233 XX XXX XXXX (Emergency)",
       ],
-      color: 'bg-blue-100 text-blue-600'
+      color: "bg-blue-100 text-blue-600",
     },
     {
       icon: Mail,
-      title: 'Email Addresses',
+      title: "Email Addresses",
       details: [
-        'info@angelscomplexacademy.edu.gh',
-        'admissions@angelscomplexacademy.edu.gh',
-        'head@angelscomplexacademy.edu.gh'
+        "info@angelscomplexacademy.edu.gh",
+        "admissions@angelscomplexacademy.edu.gh",
+        "head@angelscomplexacademy.edu.gh",
       ],
-      color: 'bg-green-100 text-green-600'
+      color: "bg-green-100 text-green-600",
     },
     {
       icon: MapPin,
-      title: 'Physical Address',
+      title: "Physical Address",
       details: [
-        'Angels Complex Academy',
-        '123 Education Street',
-        'Accra, Ghana'
+        "Angels Complex Academy",
+        "123 Education Street",
+        "Accra, Ghana",
       ],
-      color: 'bg-purple-100 text-purple-600'
+      color: "bg-purple-100 text-purple-600",
     },
     {
       icon: Clock,
-      title: 'Office Hours',
+      title: "Office Hours",
       details: [
-        'Monday - Friday: 8:00 AM - 4:00 PM',
-        'Saturday: 9:00 AM - 12:00 PM',
-        'Sunday: Closed'
+        "Monday - Friday: 8:00 AM - 4:00 PM",
+        "Saturday: 9:00 AM - 12:00 PM",
+        "Sunday: Closed",
       ],
-      color: 'bg-orange-100 text-orange-600'
-    }
+      color: "bg-orange-100 text-orange-600",
+    },
   ];
 
   const departments = [
     {
-      name: 'Administration',
-      contact: 'admin@angelscomplexacademy.edu.gh',
-      phone: '+233 XX XXX XXXX',
-      head: 'Mrs. Victoria Ankrah'
+      name: "Administration",
+      contact: "admin@angelscomplexacademy.edu.gh",
+      phone: "+233 XX XXX XXXX",
+      head: "Mrs. Victoria Ankrah",
     },
     {
-      name: 'Admissions Office',
-      contact: 'admissions@angelscomplexacademy.edu.gh',
-      phone: '+233 XX XXX XXXX',
-      head: 'Mr. Kwame Asante'
+      name: "Admissions Office",
+      contact: "admissions@angelscomplexacademy.edu.gh",
+      phone: "+233 XX XXX XXXX",
+      head: "Mr. Kwame Asante",
     },
     {
-      name: 'Academic Affairs',
-      contact: 'academic@angelscomplexacademy.edu.gh',
-      phone: '+233 XX XXX XXXX',
-      head: 'Mrs. Grace Mensah'
+      name: "Academic Affairs",
+      contact: "academic@angelscomplexacademy.edu.gh",
+      phone: "+233 XX XXX XXXX",
+      head: "Mrs. Grace Mensah",
     },
     {
-      name: 'Student Affairs',
-      contact: 'students@angelscomplexacademy.edu.gh',
-      phone: '+233 XX XXX XXXX',
-      head: 'Mr. Joseph Boateng'
-    }
+      name: "Student Affairs",
+      contact: "students@angelscomplexacademy.edu.gh",
+      phone: "+233 XX XXX XXXX",
+      head: "Mr. Joseph Boateng",
+    },
   ];
 
   return (
     <div className="bg-white">
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section
+        className="relative text-white py-20"
+        style={{
+          backgroundImage: `url(${angels2})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          minHeight: "60vh",
+        }}
+      >
+        {/* Dark overlay for better text readability */}
+        <div className="absolute inset-0 bg-black opacity-60"></div>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">Contact Us</h1>
             <p className="text-xl text-blue-100 max-w-3xl mx-auto">
-              Get in touch with Angels Complex Academy. We're here to answer your questions 
-              and help you with admissions, school information, and more.
+              Get in touch with Angels Complex Academy. We're here to answer
+              your questions and help you with admissions, school information,
+              and more.
             </p>
           </div>
         </div>
@@ -121,13 +150,17 @@ const Contact = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {contactInfo.map((info, index) => (
               <div key={index} className="text-center">
-                <div className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 ${info.color}`}>
+                <div
+                  className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 ${info.color}`}
+                >
                   <info.icon className="h-8 w-8" />
                 </div>
                 <h3 className="text-xl font-semibold mb-4">{info.title}</h3>
                 <div className="space-y-2">
                   {info.details.map((detail, detailIndex) => (
-                    <p key={detailIndex} className="text-gray-600">{detail}</p>
+                    <p key={detailIndex} className="text-gray-600">
+                      {detail}
+                    </p>
                   ))}
                 </div>
               </div>
@@ -141,11 +174,16 @@ const Contact = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-8">Send Us a Message</h2>
+              <h2 className="text-3xl font-bold text-gray-900 mb-8">
+                Send Us a Message
+              </h2>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label
+                      htmlFor="name"
+                      className="block text-sm font-medium text-gray-700 mb-2"
+                    >
                       Full Name *
                     </label>
                     <input
@@ -159,7 +197,10 @@ const Contact = () => {
                     />
                   </div>
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label
+                      htmlFor="email"
+                      className="block text-sm font-medium text-gray-700 mb-2"
+                    >
                       Email Address *
                     </label>
                     <input
@@ -173,10 +214,13 @@ const Contact = () => {
                     />
                   </div>
                 </div>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label
+                      htmlFor="phone"
+                      className="block text-sm font-medium text-gray-700 mb-2"
+                    >
                       Phone Number
                     </label>
                     <input
@@ -189,7 +233,10 @@ const Contact = () => {
                     />
                   </div>
                   <div>
-                    <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label
+                      htmlFor="subject"
+                      className="block text-sm font-medium text-gray-700 mb-2"
+                    >
                       Subject *
                     </label>
                     <select
@@ -205,15 +252,20 @@ const Contact = () => {
                       <option value="academic">Academic Information</option>
                       <option value="fees">Fees and Payments</option>
                       <option value="transportation">Transportation</option>
-                      <option value="extracurricular">Clubs and Activities</option>
+                      <option value="extracurricular">
+                        Clubs and Activities
+                      </option>
                       <option value="general">General Information</option>
                       <option value="complaint">Complaint/Concern</option>
                     </select>
                   </div>
                 </div>
-                
+
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label
+                    htmlFor="message"
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
                     Message *
                   </label>
                   <textarea
@@ -227,7 +279,7 @@ const Contact = () => {
                     placeholder="Please provide details about your inquiry..."
                   ></textarea>
                 </div>
-                
+
                 <button
                   type="submit"
                   className="w-full bg-blue-600 text-white py-3 px-6 rounded-md hover:bg-blue-700 transition-colors font-semibold flex items-center justify-center"
@@ -239,7 +291,9 @@ const Contact = () => {
             </div>
 
             <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-8">Visit Our Campus</h2>
+              <h2 className="text-3xl font-bold text-gray-900 mb-8">
+                Visit Our Campus
+              </h2>
               <div className="bg-white rounded-lg shadow-md p-6 mb-8">
                 <div className="aspect-video bg-gray-200 rounded-lg mb-4 flex items-center justify-center">
                   <p className="text-gray-500">School Map Placeholder</p>
@@ -249,21 +303,27 @@ const Contact = () => {
                     <MapPin className="h-5 w-5 text-blue-600 mt-1 flex-shrink-0" />
                     <div>
                       <h3 className="font-semibold">Main Campus</h3>
-                      <p className="text-gray-600">123 Education Street, Accra, Ghana</p>
+                      <p className="text-gray-600">
+                        123 Education Street, Accra, Ghana
+                      </p>
                     </div>
                   </div>
                   <div className="flex items-start space-x-3">
                     <Car className="h-5 w-5 text-green-600 mt-1 flex-shrink-0" />
                     <div>
                       <h3 className="font-semibold">Parking</h3>
-                      <p className="text-gray-600">Free parking available for visitors</p>
+                      <p className="text-gray-600">
+                        Free parking available for visitors
+                      </p>
                     </div>
                   </div>
                   <div className="flex items-start space-x-3">
                     <Bus className="h-5 w-5 text-purple-600 mt-1 flex-shrink-0" />
                     <div>
                       <h3 className="font-semibold">Public Transport</h3>
-                      <p className="text-gray-600">Accessible by trotro and taxi</p>
+                      <p className="text-gray-600">
+                        Accessible by trotro and taxi
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -297,16 +357,21 @@ const Contact = () => {
               Reach out to specific departments for specialized assistance
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {departments.map((dept, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+              <div
+                key={index}
+                className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
+              >
                 <div className="text-center">
                   <div className="bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
                     <Users className="h-6 w-6 text-blue-600" />
                   </div>
                   <h3 className="text-lg font-semibold mb-2">{dept.name}</h3>
-                  <p className="text-sm text-gray-600 mb-4">Head: {dept.head}</p>
+                  <p className="text-sm text-gray-600 mb-4">
+                    Head: {dept.head}
+                  </p>
                   <div className="space-y-2">
                     <div className="flex items-center justify-center text-sm text-gray-600">
                       <Phone className="h-4 w-4 mr-2" />
@@ -340,7 +405,9 @@ const Contact = () => {
             </div>
             <div className="flex items-center justify-center">
               <Mail className="h-6 w-6 mr-2" />
-              <span className="text-xl font-semibold">emergency@angelscomplexacademy.edu.gh</span>
+              <span className="text-xl font-semibold">
+                emergency@angelscomplexacademy.edu.gh
+              </span>
             </div>
           </div>
         </div>

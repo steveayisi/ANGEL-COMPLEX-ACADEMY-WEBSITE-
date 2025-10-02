@@ -10,6 +10,9 @@ import {
   Globe,
 } from "lucide-react";
 
+// Import background image
+import angelsp1c from "../assets/angelsp1c.jpg";
+
 const About = () => {
   const achievements = [
     {
@@ -73,8 +76,19 @@ const About = () => {
   return (
     <div className="bg-white">
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section
+        className="relative text-white py-20"
+        style={{
+          backgroundImage: `url(${angelsp1c})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          minHeight: "60vh",
+        }}
+      >
+        {/* Dark overlay for better text readability */}
+        <div className="absolute inset-0 bg-black opacity-60"></div>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
               About Angels Complex Academy
