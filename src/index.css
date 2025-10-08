@@ -1,3 +1,88 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Custom Logo Animations */
+@keyframes logoFloat {
+  0%, 100% { 
+    transform: translateY(0px) rotate(0deg); 
+  }
+  50% { 
+    transform: translateY(-8px) rotate(5deg); 
+  }
+}
+
+@keyframes logoPop {
+  0% { 
+    transform: scale(1) rotate(0deg); 
+  }
+  50% { 
+    transform: scale(1.15) rotate(10deg); 
+  }
+  100% { 
+    transform: scale(1) rotate(0deg); 
+  }
+}
+
+@keyframes logoRoll {
+  0% { 
+    transform: rotate(0deg) scale(1); 
+  }
+  25% { 
+    transform: rotate(90deg) scale(1.1); 
+  }
+  50% { 
+    transform: rotate(180deg) scale(1.2); 
+  }
+  75% { 
+    transform: rotate(270deg) scale(1.1); 
+  }
+  100% { 
+    transform: rotate(360deg) scale(1); 
+  }
+}
+
+@keyframes glowPulse {
+  0%, 100% { 
+    box-shadow: 0 0 5px rgba(59, 130, 246, 0.3), 0 0 20px rgba(59, 130, 246, 0.1); 
+  }
+  50% { 
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.6), 0 0 40px rgba(59, 130, 246, 0.3); 
+  }
+}
+
+/* Logo Animation Classes */
+.logo-float {
+  animation: logoFloat 3s ease-in-out infinite;
+}
+
+.logo-pop {
+  animation: logoPop 0.6s ease-in-out;
+}
+
+.logo-roll {
+  animation: logoRoll 2s ease-in-out;
+}
+
+.logo-glow {
+  animation: glowPulse 2s ease-in-out infinite;
+}
+
+/* Text shimmer effect */
+@keyframes textShimmer {
+  0% { 
+    background-position: -200% center; 
+  }
+  100% { 
+    background-position: 200% center; 
+  }
+}
+
+.text-shimmer {
+  background: linear-gradient(90deg, #1f2937, #3b82f6, #8b5cf6, #1f2937);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textShimmer 3s linear infinite;
+}
