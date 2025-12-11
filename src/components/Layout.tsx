@@ -29,49 +29,21 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
               <Link to="/" className="flex items-center space-x-3">
-                <div className="relative group cursor-pointer">
+                <div className="relative">
                   <img
                     src={logoAngels}
                     alt="School Logo"
-                    className="h-12 w-12 rounded-full object-cover transition-all duration-700 ease-in-out
-                             logo-float logo-glow
-                             hover:logo-pop active:logo-roll
-                             shadow-lg hover:shadow-2xl
-                             ring-2 ring-blue-200 hover:ring-4 hover:ring-blue-400
-                             transform hover:scale-110 hover:rotate-12
-                             border-2 border-white hover:border-blue-300"
-                    onMouseEnter={(e) => {
-                      e.currentTarget.classList.add('logo-pop');
-                      setTimeout(() => e.currentTarget.classList.remove('logo-pop'), 600);
-                    }}
-                    onClick={(e) => {
-                      e.currentTarget.classList.add('logo-roll');
-                      setTimeout(() => e.currentTarget.classList.remove('logo-roll'), 2000);
-                    }}
+                    className="h-12 w-12 rounded-full object-cover 
+                             logo-slide
+                             shadow-md"
                   />
-                  {/* Multiple glowing effect rings */}
-                  <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-400 to-purple-500 opacity-0 
-                                group-hover:opacity-20 animate-ping duration-1000"></div>
-                  <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-400 to-pink-400 opacity-0 
-                                group-hover:opacity-10 animate-pulse duration-2000"></div>
-                  {/* Sparkle effects */}
-                  <div className="absolute -top-1 -right-1 w-3 h-3 bg-yellow-400 rounded-full opacity-0 
-                                group-hover:opacity-100 animate-bounce duration-500 delay-100"></div>
-                  <div className="absolute -bottom-1 -left-1 w-2 h-2 bg-blue-400 rounded-full opacity-0 
-                                group-hover:opacity-100 animate-ping duration-700 delay-200"></div>
                 </div>
-                <div className="transition-all duration-300 hover:translate-x-1 group-hover:scale-105">
-                  <h1 className="text-xl font-bold transition-all duration-500
-                               text-shimmer hover:text-shimmer
-                               transform hover:scale-105 cursor-pointer
-                               drop-shadow-sm hover:drop-shadow-md">
+                <div>
+                  <h1 className="text-xl font-bold text-gray-900">
                     Angels Complex Academy
                   </h1>
-                  <p className="text-xs text-gray-500 hover:text-blue-500 transition-all duration-300
-                               animate-pulse hover:animate-bounce
-                               transform hover:translate-x-2 hover:scale-110
-                               hover:font-semibold hover:drop-shadow-sm">
-                    Education the best Asset ✨🎓
+                  <p className="text-xs text-gray-500">
+                    Education the best Asset
                   </p>
                 </div>
               </Link>
@@ -142,25 +114,17 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="col-span-1 md:col-span-2">
               <div className="flex items-center space-x-3 mb-4">
-                <div className="relative group">
-                  <img
-                    src={logoAngels}
-                    alt="School Logo"
-                    className="h-12 w-12 rounded-full object-cover transition-all duration-500 ease-in-out
-                             hover:scale-105 hover:rotate-6 
-                             shadow-lg hover:shadow-xl
-                             ring-2 ring-gray-600 hover:ring-blue-400"
-                  />
-                  {/* Subtle glow for footer */}
-                  <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-400 to-white opacity-0 
-                                hover:opacity-10 transition-opacity duration-500"></div>
-                </div>
-                <div className="transition-all duration-300">
-                  <h3 className="text-xl font-bold text-white hover:text-blue-300 transition-colors duration-300">
+                <img
+                  src={logoAngels}
+                  alt="School Logo"
+                  className="h-12 w-12 rounded-full object-cover shadow-md"
+                />
+                <div>
+                  <h3 className="text-xl font-bold text-white">
                     Angels Complex Academy
                   </h3>
-                  <p className="text-gray-400 hover:text-blue-400 transition-colors duration-300">
-                    Education the best Asset ✨
+                  <p className="text-gray-400">
+                    Education the best Asset
                   </p>
                 </div>
               </div>

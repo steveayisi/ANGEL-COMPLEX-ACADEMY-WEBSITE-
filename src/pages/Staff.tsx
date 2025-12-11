@@ -14,12 +14,12 @@ import angelspic from "../assets/angelspic.jpg";
 
 const Staff = () => {
   const headTeacher = {
-    name: "Mrs. Grace Mensah",
-    title: "Head Teacher",
+    name: "Mrs. Regina Opoku Ansah",
+    title: "Proprietress",
     education: "M.Ed. Educational Leadership, University of Ghana",
     experience: "20 years in education",
     specialization: "Educational Leadership & Curriculum Development",
-    bio: "Mrs. Mensah has been leading Angels Complex Academy for over 8 years. Her passion for education and dedication to student success has made her a respected leader in the educational community. She holds a Master's degree in Educational Leadership and has been instrumental in developing innovative teaching methods that cater to diverse learning needs.",
+    bio: "Mrs. Regina Opoku Ansah has been leading Angels Complex Academy for over 18 years. Her passion for education and dedication to student success has made her a respected leader in the educational community. She holds a Master's degree in Educational Leadership and has been instrumental in developing innovative teaching methods that cater to diverse learning needs.",
     achievements: [
       "Outstanding Educator Award 2020",
       "Best School Administrator 2019",
@@ -29,12 +29,12 @@ const Staff = () => {
 
   const staffMembers = [
     {
-      name: "Mr. Kwame Asante",
-      title: "Deputy Head Teacher",
-      education: "B.Ed. Mathematics Education",
+      name: "Mr. Prince Ansong",
+      title: "Head Teacher",
+      education: "B.Ed. Technical Education",
       experience: "15 years",
-      specialization: "Mathematics & Science",
-      subjects: ["Mathematics", "Science", "ICT"],
+      specialization: "Technical & Vocational Education",
+      subjects: ["Pre Technical Skills", "Basic Design & Technology"],
     },
     {
       name: "Mrs. Akosua Osei",
@@ -52,7 +52,7 @@ const Staff = () => {
       specialization: "Primary Education",
       subjects: ["English", "Social Studies", "RME"],
     },
-    {
+    /*{
       name: "Mr. Joseph Boateng",
       title: "JHS Section Head",
       education: "B.A. English, PGDE",
@@ -99,16 +99,16 @@ const Staff = () => {
       experience: "5 years",
       specialization: "Information Technology",
       subjects: ["ICT", "Computer Studies", "Digital Literacy"],
-    },
+    },*/
   ];
 
   const supportStaff = [
     {
-      name: "Mrs. Linda Asiedu",
-      title: "School Nurse",
-      education: "Diploma in Nursing",
-      experience: "8 years",
-      specialization: "Pediatric Care",
+      name: "Mr. Maxwel Ansah",
+      title: "School Bursar",
+      education: "Diploma in Accounting",
+      experience: "14 years",
+      specialization: "Financial Management",
     },
     {
       name: "Mr. Samuel Mensah",
@@ -162,12 +162,12 @@ const Staff = () => {
         </div>
       </section>
 
-      {/* Head Teacher Section */}
+      {/* Proprietress Section */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Our Head Teacher
+              Meet the Proprietress
             </h2>
             <p className="text-xl text-gray-600">
               Leading with vision, experience, and dedication
