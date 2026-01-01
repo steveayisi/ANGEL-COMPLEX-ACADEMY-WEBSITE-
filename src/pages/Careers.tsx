@@ -57,6 +57,8 @@ const Careers = () => {
     if (!formData.email.trim()) newErrors.email = "Email is required";
     if (!formData.phone.trim()) newErrors.phone = "Phone number is required";
     if (!formData.position) newErrors.position = "Please select a position";
+    if (!formData.coverLetter.trim()) newErrors.coverLetter = "Cover letter is required";
+    if (!formData.resume) newErrors.resume = "Please upload your resume/CV";
 
     // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -535,7 +537,7 @@ const Careers = () => {
                   htmlFor="coverLetter"
                   className="block text-sm font-medium text-gray-700 mb-2"
                 >
-                  Cover Letter / Message (Optional)
+                  Cover Letter / Message *
                 </label>
                 <textarea
                   id="coverLetter"
@@ -543,17 +545,26 @@ const Careers = () => {
                   value={formData.coverLetter}
                   onChange={handleInputChange}
                   rows={6}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                    errors.coverLetter ? "border-red-500" : "border-gray-300"
+                  }`}
                   placeholder="Tell us why you're interested in joining our team and what makes you a great fit..."
                 ></textarea>
+                {errors.coverLetter && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.coverLetter}
+                  </p>
+                )}
               </div>
 
               {/* Resume Upload */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Upload Resume/CV (Optional)
+                  Upload Resume/CV *
                 </label>
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-500 transition-colors">
+                <div className={`border-2 border-dashed rounded-lg p-6 text-center hover:border-blue-500 transition-colors ${
+                  errors.resume ? "border-red-500" : "border-gray-300"
+                }`}>
                   <Upload className="h-12 w-12 text-gray-400 mx-auto mb-3" />
                   <label
                     htmlFor="resume"
