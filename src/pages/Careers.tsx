@@ -46,6 +46,8 @@ const Careers = () => {
     if (result.success && result.data) {
       // Filter only active jobs
       setOpenPositions(result.data.filter((job) => job.is_active));
+    } else {
+      console.error("Failed to fetch jobs:", result.error);
     }
     setLoadingJobs(false);
   };

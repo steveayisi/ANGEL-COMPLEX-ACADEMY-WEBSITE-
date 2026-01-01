@@ -61,11 +61,12 @@ const AdminJobs = () => {
 
   const fetchJobs = async () => {
     setLoading(true);
-    const result = await DatabaseService.getJobs();
+    const result = await DatabaseService.getAllJobOpenings();
     if (result.success && result.data) {
       setJobs(result.data);
     } else {
-      setMessage("Failed to fetch jobs");
+      console.error("Failed to fetch jobs:", result.error);
+      setMessage(result.error || "Failed to fetch jobs");
       setMessageType("error");
     }
     setLoading(false);
