@@ -958,7 +958,6 @@ const Admissions = () => {
                   <div>
                     <h3 className="font-semibold text-lg">Phone</h3>
                     <p className="text-gray-600">+233 24 469 0571</p>
-                    <p className="text-gray-600">+233 XX XXX XXXX</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-4">
