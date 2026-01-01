@@ -27,66 +27,14 @@ const Staff = () => {
     ],
   };
 
-  const staffMembers = [
+  const keyStaff = [
     {
       name: "Mr. Prince Ansong",
       title: "Head Teacher",
       education: "B.Ed. Technical Education",
       experience: "15 years",
       specialization: "Technical & Vocational Education",
-      subjects: ["Pre Technical Skills", "Basic Design & Technology"],
     },
-    /*{
-      name: "Mr. Joseph Boateng",
-      title: "JHS Section Head",
-      education: "B.A. English, PGDE",
-      experience: "14 years",
-      specialization: "English Language & Literature",
-      subjects: ["English Language", "Literature", "French"],
-    },
-    {
-      name: "Mrs. Comfort Adjei",
-      title: "Science Teacher",
-      education: "B.Sc. Biology, PGDE",
-      experience: "8 years",
-      specialization: "Integrated Science",
-      subjects: ["Integrated Science", "Biology", "Chemistry"],
-    },
-    {
-      name: "Mr. Emmanuel Frimpong",
-      title: "Mathematics Teacher",
-      education: "B.Sc. Mathematics, PGDE",
-      experience: "9 years",
-      specialization: "Mathematics",
-      subjects: ["Mathematics", "Further Mathematics", "Physics"],
-    },
-    {
-      name: "Mrs. Patience Nyarko",
-      title: "Creative Arts Teacher",
-      education: "B.A. Fine Arts, PGDE",
-      experience: "7 years",
-      specialization: "Visual & Performing Arts",
-      subjects: ["Creative Arts", "Music", "Drama"],
-    },
-    {
-      name: "Mr. Daniel Opoku",
-      title: "Physical Education Teacher",
-      education: "B.Ed. Physical Education",
-      experience: "6 years",
-      specialization: "Sports & Physical Education",
-      subjects: ["Physical Education", "Sports", "Health Education"],
-    },
-    {
-      name: "Mrs. Beatrice Ampong",
-      title: "ICT Coordinator",
-      education: "B.Sc. Computer Science, PGDE",
-      experience: "5 years",
-      specialization: "Information Technology",
-      subjects: ["ICT", "Computer Studies", "Digital Literacy"],
-    },*/
-  ];
-
-  const supportStaff = [
     {
       name: "Mr. Maxwel Ansah",
       title: "School Bursar",
@@ -197,100 +145,59 @@ const Staff = () => {
         </div>
       </section>
 
-      {/* Teaching Staff Section */}
+      {/* Key Staff Section */}
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Our Teaching Staff
+              Key Staff Members
             </h2>
             <p className="text-xl text-gray-600">
-              Qualified educators dedicated to student success
+              Leadership team committed to excellence in education
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {staffMembers.map((staff, index) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            {keyStaff.map((staff, index) => (
               <div
                 key={index}
-                className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
+                className="bg-white rounded-lg shadow-lg p-8 hover:shadow-xl transition-shadow"
               >
-                <div className="text-center mb-4">
-                  <div className="w-20 h-20 bg-gray-200 rounded-full mx-auto mb-3 flex items-center justify-center">
-                    <Users className="h-10 w-10 text-gray-400" />
+                <div className="text-center mb-6">
+                  <div className="w-32 h-32 bg-gradient-to-br from-blue-100 to-purple-100 rounded-full mx-auto mb-4 flex items-center justify-center">
+                    <Users className="h-16 w-16 text-blue-600" />
                   </div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-1">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">
                     {staff.name}
                   </h3>
-                  <p className="text-blue-600 font-medium">{staff.title}</p>
+                  <p className="text-lg text-blue-600 font-semibold">{staff.title}</p>
                 </div>
 
-                <div className="space-y-3">
+                <div className="space-y-4">
                   <div>
-                    <h4 className="font-medium text-gray-900 flex items-center">
-                      <GraduationCap className="h-4 w-4 mr-2 text-blue-600" />
+                    <h4 className="font-semibold text-gray-900 flex items-center mb-2">
+                      <GraduationCap className="h-5 w-5 mr-2 text-blue-600" />
                       Education
                     </h4>
-                    <p className="text-sm text-gray-600">{staff.education}</p>
+                    <p className="text-gray-700">{staff.education}</p>
                   </div>
 
                   <div>
-                    <h4 className="font-medium text-gray-900 flex items-center">
-                      <Star className="h-4 w-4 mr-2 text-yellow-600" />
+                    <h4 className="font-semibold text-gray-900 flex items-center mb-2">
+                      <Star className="h-5 w-5 mr-2 text-yellow-600" />
                       Experience
                     </h4>
-                    <p className="text-sm text-gray-600">{staff.experience}</p>
+                    <p className="text-gray-700">{staff.experience}</p>
                   </div>
 
                   <div>
-                    <h4 className="font-medium text-gray-900 flex items-center">
-                      <Book className="h-4 w-4 mr-2 text-green-600" />
-                      Subjects
+                    <h4 className="font-semibold text-gray-900 flex items-center mb-2">
+                      <Award className="h-5 w-5 mr-2 text-green-600" />
+                      Specialization
                     </h4>
-                    <div className="flex flex-wrap gap-1 mt-1">
-                      {staff.subjects.map((subject, subIndex) => (
-                        <span
-                          key={subIndex}
-                          className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded"
-                        >
-                          {subject}
-                        </span>
-                      ))}
-                    </div>
+                    <p className="text-gray-700">{staff.specialization}</p>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Support Staff Section */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Support Staff
-            </h2>
-            <p className="text-xl text-gray-600">
-              Essential team members who ensure smooth school operations
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {supportStaff.map((staff, index) => (
-              <div key={index} className="text-center">
-                <div className="w-24 h-24 bg-gray-200 rounded-full mx-auto mb-4 flex items-center justify-center">
-                  <Users className="h-12 w-12 text-gray-400" />
-                </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-1">
-                  {staff.name}
-                </h3>
-                <p className="text-purple-600 font-medium mb-2">
-                  {staff.title}
-                </p>
-                <p className="text-sm text-gray-600 mb-1">{staff.education}</p>
-                <p className="text-sm text-gray-600">{staff.experience}</p>
               </div>
             ))}
           </div>
