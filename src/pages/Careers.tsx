@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Briefcase,
   MapPin,
@@ -12,6 +12,7 @@ import {
   FileText,
   AlertCircle,
 } from "lucide-react";
+import { DatabaseService, type JobOpening } from "../lib/database";
 
 // Import background image
 import angelspic from "../assets/angelspic.jpg";
@@ -31,107 +32,28 @@ const Careers = () => {
   const [submitStatus, setSubmitStatus] = useState<
     "idle" | "success" | "error"
   >("idle");
+  const [openPositions, setOpenPositions] = useState<JobOpening[]>([]);
+  const [loadingJobs, setLoadingJobs] = useState(true);
 
-  const openPositions = [
-    {
-      title: "Primary School Teacher",
-      department: "Teaching Staff",
-      type: "Full-time",
-      location: "Accra, Ghana",
-      salary: "Competitive",
-      description:
-        "We are seeking a qualified and passionate Primary School Teacher to join our team. The ideal candidate will have a strong understanding of primary education curriculum and a commitment to student success.",
-      requirements: [
-        "Bachelor's degree in Education (B.Ed.) or equivalent",
-        "Valid teaching license",
-        "Minimum 2 years teaching experience",
-        "Excellent classroom management skills",
-        "Strong communication and interpersonal abilities",
-      ],
-      responsibilities: [
-        "Develop and implement engaging lesson plans",
-        "Assess student progress and provide feedback",
-        "Maintain a positive classroom environment",
-        "Collaborate with colleagues and parents",
-        "Participate in school activities and events",
-      ],
-    },
-    {
-      title: "Early Childhood Educator",
-      department: "Teaching Staff",
-      type: "Full-time",
-      location: "Accra, Ghana",
-      salary: "Competitive",
-      description:
-        "Join our dedicated team of early years educators. We're looking for someone passionate about nurturing young minds in our Creche, Nursery, and KG programs.",
-      requirements: [
-        "Diploma or Degree in Early Childhood Education",
-        "Experience working with children aged 6 months - 6 years",
-        "Understanding of child development principles",
-        "Patience, creativity, and enthusiasm",
-        "First Aid certification (preferred)",
-      ],
-      responsibilities: [
-        "Create age-appropriate learning activities",
-        "Monitor child development and progress",
-        "Maintain a safe and nurturing environment",
-        "Communicate regularly with parents",
-        "Implement early years curriculum",
-      ],
-    },
-    {
-      title: "JHS Mathematics/Science Teacher",
-      department: "Teaching Staff",
-      type: "Full-time",
-      location: "Accra, Ghana",
-      salary: "Competitive",
-      description:
-        "We are seeking an enthusiastic Mathematics and/or Science teacher for our Junior High School section. The ideal candidate should inspire students and make STEM subjects engaging.",
-      requirements: [
-        "Bachelor's degree in Mathematics, Science, or Education",
-        "PGDE or teaching certification",
-        "Strong subject matter expertise",
-        "Experience with WAEC/BECE curriculum",
-        "Technology integration skills",
-      ],
-      responsibilities: [
-        "Teach Mathematics and/or Integrated Science",
-        "Prepare students for BECE examinations",
-        "Organize science clubs and competitions",
-        "Use innovative teaching methods",
-        "Track and improve student performance",
-      ],
-    },
-    {
-      title: "School Administrator",
-      department: "Administrative Staff",
-      type: "Full-time",
-      location: "Accra, Ghana",
-      salary: "Competitive",
-      description:
-        "We are looking for an organized and efficient School Administrator to support our daily operations and ensure smooth school management.",
-      requirements: [
-        "Diploma or Degree in Business Administration",
-        "Minimum 3 years administrative experience",
-        "Proficiency in Microsoft Office and school management software",
-        "Strong organizational and multitasking abilities",
-        "Excellent written and verbal communication",
-      ],
-      responsibilities: [
-        "Manage school records and documentation",
-        "Coordinate communication with parents and staff",
-        "Assist with admissions and enrollment",
-        "Support financial record-keeping",
-        "Handle general office administration",
-      ],
-    },
-  ];
+  // Fetch jobs from database on component mount
+  useEffect(() => {
+    fetchJobs();
+  }, []);
+
+  const fetchJobs = async () => {
+    setLoadingJobs(true);
+    const result = await DatabaseService.getJobs();
+    if (result.success && result.data) {
+      // Filter only active jobs
+      setOpenPositions(result.data.filter((job) => job.is_active));
+    }
+    setLoadingJobs(false);
+  };
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
 
-    if (!formData.fullName.trim())
-      newErrors.fullName = "Full name is required";
+    if (!formData.fullName.trim()) newErrors.fullName = "Full name is required";
     if (!formData.email.trim()) newErrors.email = "Email is required";
     if (!formData.phone.trim()) newErrors.phone = "Phone number is required";
     if (!formData.position) newErrors.position = "Please select a position";
@@ -166,7 +88,7 @@ const Careers = () => {
     setTimeout(() => {
       setSubmitStatus("success");
       setIsSubmitting(false);
-      
+
       // Reset form
       setTimeout(() => {
         setFormData({
@@ -287,9 +209,7 @@ const Careers = () => {
               <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <DollarSign className="h-8 w-8 text-blue-600" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">
-                Competitive Salary
-              </h3>
+              <h3 className="text-xl font-semibold mb-2">Competitive Salary</h3>
               <p className="text-gray-600">
                 Attractive compensation packages and benefits
               </p>
@@ -342,7 +262,18 @@ const Careers = () => {
             </p>
           </div>
 
-          <div className="space-y-6">
+          {loadingJobs ? (
+            <div className="text-center py-12">
+              <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+              <p className="text-gray-600 mt-4">Loading job openings...</p>
+            </div>
+          ) : openPositions.length === 0 ? (
+            <div className="bg-white rounded-lg shadow-md p-8 text-center">
+              <p className="text-gray-600 text-lg">No job openings available at the moment.</p>
+              <p className="text-gray-500">Please check back later or contact us directly.</p>
+            </div>
+          ) : (
+            <div className="space-y-6">
             {openPositions.map((position, index) => (
               <div
                 key={index}
@@ -424,7 +355,8 @@ const Careers = () => {
                 </div>
               </div>
             ))}
-          </div>
+            </div>
+          )}
         </div>
       </section>
 
@@ -496,9 +428,7 @@ const Careers = () => {
                         value={formData.fullName}
                         onChange={handleInputChange}
                         className={`w-full pl-10 pr-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                          errors.fullName
-                            ? "border-red-500"
-                            : "border-gray-300"
+                          errors.fullName ? "border-red-500" : "border-gray-300"
                         }`}
                         placeholder="e.g. John Mensah"
                       />
@@ -649,9 +579,7 @@ const Careers = () => {
                     </p>
                   )}
                   {errors.resume && (
-                    <p className="text-red-500 text-sm mt-2">
-                      {errors.resume}
-                    </p>
+                    <p className="text-red-500 text-sm mt-2">{errors.resume}</p>
                   )}
                 </div>
               </div>

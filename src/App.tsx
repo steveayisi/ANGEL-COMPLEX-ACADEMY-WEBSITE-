@@ -8,22 +8,36 @@ import Updates from "./pages/Updates";
 import Clubs from "./pages/Clubs";
 import Contact from "./pages/Contact";
 import Careers from "./pages/Careers";
+import AdminLogin from "./pages/AdminLogin";
+import AdminJobs from "./pages/AdminJobs";
 
 function App() {
   return (
     <Router>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/admissions" element={<Admissions />} />
-          <Route path="/staff" element={<Staff />} />
-          <Route path="/careers" element={<Careers />} />
-          <Route path="/updates" element={<Updates />} />
-          <Route path="/clubs" element={<Clubs />} />
-          <Route path="/contact" element={<Contact />} />
-        </Routes>
-      </Layout>
+      <Routes>
+        {/* Admin Routes (without Layout) */}
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin/jobs" element={<AdminJobs />} />
+
+        {/* Public Routes (with Layout) */}
+        <Route
+          path="/*"
+          element={
+            <Layout>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/admissions" element={<Admissions />} />
+                <Route path="/staff" element={<Staff />} />
+                <Route path="/careers" element={<Careers />} />
+                <Route path="/updates" element={<Updates />} />
+                <Route path="/clubs" element={<Clubs />} />
+                <Route path="/contact" element={<Contact />} />
+              </Routes>
+            </Layout>
+          }
+        />
+      </Routes>
     </Router>
   );
 }
