@@ -36,22 +36,6 @@ const Staff = () => {
       specialization: "Technical & Vocational Education",
       subjects: ["Pre Technical Skills", "Basic Design & Technology"],
     },
-    {
-      name: "Mrs. Akosua Osei",
-      title: "Senior Teacher - Early Years",
-      education: "Diploma in Early Childhood Education",
-      experience: "12 years",
-      specialization: "Early Childhood Development",
-      subjects: ["Creche", "Nursery", "KG Programs"],
-    },
-    {
-      name: "Miss Abena Owusu",
-      title: "Primary Section Head",
-      education: "B.Ed. Primary Education",
-      experience: "10 years",
-      specialization: "Primary Education",
-      subjects: ["English", "Social Studies", "RME"],
-    },
     /*{
       name: "Mr. Joseph Boateng",
       title: "JHS Section Head",
@@ -109,27 +93,6 @@ const Staff = () => {
       education: "Diploma in Accounting",
       experience: "14 years",
       specialization: "Financial Management",
-    },
-    {
-      name: "Mr. Samuel Mensah",
-      title: "Librarian",
-      education: "B.A. Library Science",
-      experience: "6 years",
-      specialization: "Information Management",
-    },
-    {
-      name: "Mrs. Victoria Ankrah",
-      title: "School Secretary",
-      education: "HND Secretaryship",
-      experience: "10 years",
-      specialization: "Administrative Support",
-    },
-    {
-      name: "Mr. Francis Donkor",
-      title: "Security Supervisor",
-      education: "Certificate in Security Management",
-      experience: "12 years",
-      specialization: "School Security",
     },
   ];
 
@@ -314,7 +277,7 @@ const Staff = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {supportStaff.map((staff, index) => (
               <div key={index} className="text-center">
                 <div className="w-24 h-24 bg-gray-200 rounded-full mx-auto mb-4 flex items-center justify-center">
