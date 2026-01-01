@@ -7,6 +7,7 @@ import Staff from "./pages/Staff";
 import Updates from "./pages/Updates";
 import Clubs from "./pages/Clubs";
 import Contact from "./pages/Contact";
+import Careers from "./pages/Careers";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/admissions" element={<Admissions />} />
           <Route path="/staff" element={<Staff />} />
+          <Route path="/careers" element={<Careers />} />
           <Route path="/updates" element={<Updates />} />
           <Route path="/clubs" element={<Clubs />} />
           <Route path="/contact" element={<Contact />} />
