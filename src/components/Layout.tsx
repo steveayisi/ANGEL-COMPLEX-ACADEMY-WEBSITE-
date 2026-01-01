@@ -177,7 +177,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <div className="space-y-2">
                 <div className="flex items-center space-x-2">
                   <Phone className="h-4 w-4 text-blue-400" />
-                  <span className="text-gray-400">+233 XX XXX XXXX</span>
+                  <span className="text-gray-400">+233 24 469 0571</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <Mail className="h-4 w-4 text-blue-400" />
@@ -195,7 +195,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
           <div className="border-t border-gray-800 mt-8 pt-8 text-center">
             <p className="text-gray-400">
-              &copy; 2025 Angels Complex Academy. All rights reserved.
+              &copy; 2026 Angels Complex Academy. All rights reserved.
             </p>
           </div>
         </div>
