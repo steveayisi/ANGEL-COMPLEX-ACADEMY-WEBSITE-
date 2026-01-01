@@ -1,4 +1,4 @@
-import { supabase } from '../supabaseClient';
+import { supabase } from "../supabaseClient";
 
 export interface AdmissionData {
   parent_name: string;
@@ -6,7 +6,7 @@ export interface AdmissionData {
   parent_phone: string;
   parent_email: string;
   child_name: string;
-  child_gender: 'male' | 'female';
+  child_gender: "male" | "female";
   child_age: number;
   desired_level: string;
   previous_school?: string;
@@ -17,9 +17,24 @@ export interface AdmissionData {
 
 export interface AdmissionRecord extends AdmissionData {
   id: string;
-  application_status: 'pending' | 'under_review' | 'accepted' | 'rejected';
+  application_status: "pending" | "under_review" | "accepted" | "rejected";
   created_at: string;
   updated_at: string;
+}
+
+export interface JobOpening {
+  id?: string;
+  title: string;
+  department: string;
+  type: string;
+  location: string;
+  salary: string;
+  description: string;
+  requirements: string[];
+  responsibilities: string[];
+  is_active: boolean;
+  created_at?: string;
+  updated_at?: string;
 }
 
 export class DatabaseService {
@@ -27,22 +42,23 @@ export class DatabaseService {
   static async submitAdmission(data: AdmissionData) {
     try {
       const { data: result, error } = await supabase
-        .from('admissions')
+        .from("admissions")
         .insert([data])
         .select()
         .single();
 
       if (error) {
-        console.error('Database error:', error);
+        console.error("Database error:", error);
         throw new Error(`Failed to submit application: ${error.message}`);
       }
 
       return { success: true, data: result };
     } catch (error) {
-      console.error('Submission error:', error);
-      return { 
-        success: false, 
-        error: error instanceof Error ? error.message : 'Unknown error occurred' 
+      console.error("Submission error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
       };
     }
   }
@@ -51,9 +67,9 @@ export class DatabaseService {
   static async getAllAdmissions() {
     try {
       const { data, error } = await supabase
-        .from('admissions')
-        .select('*')
-        .order('created_at', { ascending: false });
+        .from("admissions")
+        .select("*")
+        .order("created_at", { ascending: false });
 
       if (error) {
         throw new Error(`Failed to fetch admissions: ${error.message}`);
@@ -61,22 +77,25 @@ export class DatabaseService {
 
       return { success: true, data };
     } catch (error) {
-      console.error('Fetch error:', error);
-      return { 
-        success: false, 
-        error: error instanceof Error ? error.message : 'Unknown error occurred' 
+      console.error("Fetch error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
       };
     }
   }
 
   // Get admissions by status
-  static async getAdmissionsByStatus(status: 'pending' | 'under_review' | 'accepted' | 'rejected') {
+  static async getAdmissionsByStatus(
+    status: "pending" | "under_review" | "accepted" | "rejected"
+  ) {
     try {
       const { data, error } = await supabase
-        .from('admissions')
-        .select('*')
-        .eq('application_status', status)
-        .order('created_at', { ascending: false });
+        .from("admissions")
+        .select("*")
+        .eq("application_status", status)
+        .order("created_at", { ascending: false });
 
       if (error) {
         throw new Error(`Failed to fetch admissions: ${error.message}`);
@@ -84,21 +103,25 @@ export class DatabaseService {
 
       return { success: true, data };
     } catch (error) {
-      console.error('Fetch error:', error);
-      return { 
-        success: false, 
-        error: error instanceof Error ? error.message : 'Unknown error occurred' 
+      console.error("Fetch error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
       };
     }
   }
 
   // Update admission status (for admin use)
-  static async updateAdmissionStatus(id: string, status: 'pending' | 'under_review' | 'accepted' | 'rejected') {
+  static async updateAdmissionStatus(
+    id: string,
+    status: "pending" | "under_review" | "accepted" | "rejected"
+  ) {
     try {
       const { data, error } = await supabase
-        .from('admissions')
+        .from("admissions")
         .update({ application_status: status })
-        .eq('id', id)
+        .eq("id", id)
         .select()
         .single();
 
@@ -108,10 +131,11 @@ export class DatabaseService {
 
       return { success: true, data };
     } catch (error) {
-      console.error('Update error:', error);
-      return { 
-        success: false, 
-        error: error instanceof Error ? error.message : 'Unknown error occurred' 
+      console.error("Update error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
       };
     }
   }
@@ -120,10 +144,12 @@ export class DatabaseService {
   static async searchAdmissions(searchTerm: string) {
     try {
       const { data, error } = await supabase
-        .from('admissions')
-        .select('*')
-        .or(`parent_email.ilike.%${searchTerm}%,child_name.ilike.%${searchTerm}%,parent_name.ilike.%${searchTerm}%`)
-        .order('created_at', { ascending: false });
+        .from("admissions")
+        .select("*")
+        .or(
+          `parent_email.ilike.%${searchTerm}%,child_name.ilike.%${searchTerm}%,parent_name.ilike.%${searchTerm}%`
+        )
+        .order("created_at", { ascending: false });
 
       if (error) {
         throw new Error(`Failed to search admissions: ${error.message}`);
@@ -131,10 +157,11 @@ export class DatabaseService {
 
       return { success: true, data };
     } catch (error) {
-      console.error('Search error:', error);
-      return { 
-        success: false, 
-        error: error instanceof Error ? error.message : 'Unknown error occurred' 
+      console.error("Search error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
       };
     }
   }
@@ -143,15 +170,19 @@ export class DatabaseService {
   static async getAdmissionStats() {
     try {
       const { data, error } = await supabase
-        .from('admissions')
-        .select('application_status, desired_level');
+        .from("admissions")
+        .select("application_status, desired_level");
 
       if (error) {
         throw new Error(`Failed to fetch stats: ${error.message}`);
       }
 
       type StatItem = {
-        application_status: 'pending' | 'under_review' | 'accepted' | 'rejected';
+        application_status:
+          | "pending"
+          | "under_review"
+          | "accepted"
+          | "rejected";
         desired_level: string;
       };
 
@@ -160,22 +191,31 @@ export class DatabaseService {
       // Process data to create statistics
       const stats = {
         total: typedData.length,
-        pending: typedData.filter(item => item.application_status === 'pending').length,
-        under_review: typedData.filter(item => item.application_status === 'under_review').length,
-        accepted: typedData.filter(item => item.application_status === 'accepted').length,
-        rejected: typedData.filter(item => item.application_status === 'rejected').length,
+        pending: typedData.filter(
+          (item) => item.application_status === "pending"
+        ).length,
+        under_review: typedData.filter(
+          (item) => item.application_status === "under_review"
+        ).length,
+        accepted: typedData.filter(
+          (item) => item.application_status === "accepted"
+        ).length,
+        rejected: typedData.filter(
+          (item) => item.application_status === "rejected"
+        ).length,
         by_level: typedData.reduce((acc: Record<string, number>, item) => {
           acc[item.desired_level] = (acc[item.desired_level] || 0) + 1;
           return acc;
-        }, {})
+        }, {}),
       };
 
       return { success: true, data: stats };
     } catch (error) {
-      console.error('Stats error:', error);
-      return { 
-        success: false, 
-        error: error instanceof Error ? error.message : 'Unknown error occurred' 
+      console.error("Stats error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
       };
     }
   }
@@ -184,19 +224,163 @@ export class DatabaseService {
   static async testConnection() {
     try {
       const { error } = await supabase
-        .from('admissions')
-        .select('count', { count: 'exact', head: true });
+        .from("admissions")
+        .select("count", { count: "exact", head: true });
 
       if (error) {
         throw new Error(`Database connection failed: ${error.message}`);
       }
 
-      return { success: true, message: 'Database connection successful' };
+      return { success: true, message: "Database connection successful" };
     } catch (error) {
-      console.error('Connection test error:', error);
-      return { 
-        success: false, 
-        error: error instanceof Error ? error.message : 'Unknown error occurred' 
+      console.error("Connection test error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
+      };
+    }
+  }
+
+  // ===== JOB MANAGEMENT FUNCTIONS =====
+
+  // Get all active job openings
+  static async getJobOpenings() {
+    try {
+      const { data, error } = await supabase
+        .from("jobs")
+        .select("*")
+        .eq("is_active", true)
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        throw new Error(`Failed to fetch jobs: ${error.message}`);
+      }
+
+      return { success: true, data };
+    } catch (error) {
+      console.error("Fetch jobs error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
+      };
+    }
+  }
+
+  // Get all job openings (including inactive) - for admin use
+  static async getAllJobOpenings() {
+    try {
+      const { data, error } = await supabase
+        .from("jobs")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        throw new Error(`Failed to fetch jobs: ${error.message}`);
+      }
+
+      return { success: true, data };
+    } catch (error) {
+      console.error("Fetch jobs error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
+      };
+    }
+  }
+
+  // Create a new job opening
+  static async createJob(jobData: JobOpening) {
+    try {
+      const { data, error } = await supabase
+        .from("jobs")
+        .insert([jobData])
+        .select()
+        .single();
+
+      if (error) {
+        throw new Error(`Failed to create job: ${error.message}`);
+      }
+
+      return { success: true, data };
+    } catch (error) {
+      console.error("Create job error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
+      };
+    }
+  }
+
+  // Update a job opening
+  static async updateJob(jobId: string, jobData: Partial<JobOpening>) {
+    try {
+      const { data, error } = await supabase
+        .from("jobs")
+        .update(jobData)
+        .eq("id", jobId)
+        .select()
+        .single();
+
+      if (error) {
+        throw new Error(`Failed to update job: ${error.message}`);
+      }
+
+      return { success: true, data };
+    } catch (error) {
+      console.error("Update job error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
+      };
+    }
+  }
+
+  // Delete a job opening
+  static async deleteJob(jobId: string) {
+    try {
+      const { error } = await supabase.from("jobs").delete().eq("id", jobId);
+
+      if (error) {
+        throw new Error(`Failed to delete job: ${error.message}`);
+      }
+
+      return { success: true, message: "Job deleted successfully" };
+    } catch (error) {
+      console.error("Delete job error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
+      };
+    }
+  }
+
+  // Toggle job active status
+  static async toggleJobStatus(jobId: string, isActive: boolean) {
+    try {
+      const { data, error } = await supabase
+        .from("jobs")
+        .update({ is_active: isActive })
+        .eq("id", jobId)
+        .select()
+        .single();
+
+      if (error) {
+        throw new Error(`Failed to update job status: ${error.message}`);
+      }
+
+      return { success: true, data };
+    } catch (error) {
+      console.error("Toggle job status error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
       };
     }
   }

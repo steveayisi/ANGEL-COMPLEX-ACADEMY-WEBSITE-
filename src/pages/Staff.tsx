@@ -170,7 +170,9 @@ const Staff = () => {
                   <h3 className="text-2xl font-bold text-gray-900 mb-2">
                     {staff.name}
                   </h3>
-                  <p className="text-lg text-blue-600 font-semibold">{staff.title}</p>
+                  <p className="text-lg text-blue-600 font-semibold">
+                    {staff.title}
+                  </p>
                 </div>
 
                 <div className="space-y-4">

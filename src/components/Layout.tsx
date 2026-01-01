@@ -124,9 +124,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                   <h3 className="text-xl font-bold text-white">
                     Angels Complex Academy
                   </h3>
-                  <p className="text-gray-400">
-                    Education the best Asset
-                  </p>
+                  <p className="text-gray-400">Education the best Asset</p>
                 </div>
               </div>
               <p className="text-gray-400 mb-4">
