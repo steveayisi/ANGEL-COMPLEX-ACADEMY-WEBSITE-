@@ -14,6 +14,7 @@ export interface JobApplication {
 }
 
 export interface AdmissionData {
+  parent_name: string;
   parent_occupation?: string;
   parent_phone: string;
   parent_email: string;
@@ -49,6 +50,7 @@ export interface JobOpening {
   updated_at?: string;
 }
 
+export class DatabaseService {
   // ===== ADMISSION FUNCTIONS =====
 
   // Submit a new admission application
