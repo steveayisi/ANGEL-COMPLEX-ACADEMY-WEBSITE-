@@ -24,6 +24,7 @@ const AdminJobs = () => {
     "success"
   );
   const [adminEmail, setAdminEmail] = useState("");
+  const [adminName, setAdminName] = useState("");
 
   const [formData, setFormData] = useState<JobOpening>({
     title: "",
