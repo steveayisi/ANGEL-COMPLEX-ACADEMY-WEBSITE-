@@ -13,6 +13,7 @@ import {
   AlertCircle,
 } from "lucide-react";
 import { DatabaseService, type JobOpening } from "../lib/database";
+import { supabase } from "../supabaseClient";
 
 // Import background image
 import angelspic from "../assets/angelspic.jpg";
@@ -89,13 +90,37 @@ const Careers = () => {
     setSubmitStatus("idle");
 
     try {
+      let resumeUrl = "";
+
+      // Upload resume to Supabase Storage if provided
+      if (formData.resume) {
+        const fileExt = formData.resume.name.split('.').pop();
+        const fileName = `${Date.now()}_${formData.fullName.replace(/\s+/g, '_')}.${fileExt}`;
+        const filePath = `resumes/${fileName}`;
+
+        const { data: uploadData, error: uploadError } = await supabase.storage
+          .from('applications')
+          .upload(filePath, formData.resume);
+
+        if (uploadError) {
+          throw new Error(`Failed to upload resume: ${uploadError.message}`);
+        }
+
+        // Get public URL
+        const { data: { publicUrl } } = supabase.storage
+          .from('applications')
+          .getPublicUrl(filePath);
+
+        resumeUrl = publicUrl;
+      }
+
       const applicationData = {
         job_id: formData.position,
         full_name: formData.fullName,
         email: formData.email,
         phone: formData.phone,
         cover_letter: formData.coverLetter,
-        resume_url: formData.resume?.name || "submitted",
+        resume_url: resumeUrl || "No resume uploaded",
         status: "pending" as const,
       };
 
@@ -122,7 +147,7 @@ const Careers = () => {
       } else {
         setSubmitStatus("error");
         console.error("Application submission error:", result.error);
-        alert(`Error: ${result.error}`); // Show error to user
+        alert(`Error: ${result.error}`);
       }
     } catch (error) {
       setSubmitStatus("error");

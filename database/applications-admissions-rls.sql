@@ -1,4 +1,4 @@
--- Create job_applications table
+-- Create job_applications table if it doesn't exist
 CREATE TABLE IF NOT EXISTS job_applications (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   job_id UUID NOT NULL REFERENCES jobs(id) ON DELETE CASCADE,
@@ -12,14 +12,18 @@ CREATE TABLE IF NOT EXISTS job_applications (
   updated_at TIMESTAMP DEFAULT NOW()
 );
 
--- Create index on job_id for faster queries
+-- Create indexes on job_id for faster queries
 CREATE INDEX IF NOT EXISTS job_applications_job_id_idx ON job_applications(job_id);
 CREATE INDEX IF NOT EXISTS job_applications_status_idx ON job_applications(status);
 
 -- Enable RLS on job_applications
 ALTER TABLE job_applications ENABLE ROW LEVEL SECURITY;
 
--- Allow authenticated users (admins) to do everything
+-- Drop existing policies if they exist
+DROP POLICY IF EXISTS "Allow full access to authenticated users for job_applications" ON job_applications;
+DROP POLICY IF EXISTS "Allow public to submit job applications" ON job_applications;
+
+-- Create fresh policies
 CREATE POLICY "Allow full access to authenticated users for job_applications"
 ON job_applications
 FOR ALL
@@ -27,15 +31,14 @@ TO authenticated
 USING (true)
 WITH CHECK (true);
 
--- Allow anyone to submit job applications
 CREATE POLICY "Allow public to submit job applications"
 ON job_applications
 FOR INSERT
 WITH CHECK (true);
 
--- Update job_applications RLS for jobs
+-- Update job_applications RLS for jobs table
 DROP POLICY IF EXISTS "Allow public read access to active jobs" ON jobs;
-DROP POLICY IF EXISTS "Allow full access to authenticated users" ON jobs;
+DROP POLICY IF EXISTS "Allow full access to authenticated users for jobs" ON jobs;
 
 CREATE POLICY "Allow public read access to active jobs"
 ON jobs
@@ -49,7 +52,7 @@ TO authenticated
 USING (true)
 WITH CHECK (true);
 
--- Update RLS for admissions if not already set
+-- Update RLS for admissions table
 DROP POLICY IF EXISTS "Allow public to submit admissions" ON admissions;
 DROP POLICY IF EXISTS "Allow full access to authenticated users for admissions" ON admissions;
 

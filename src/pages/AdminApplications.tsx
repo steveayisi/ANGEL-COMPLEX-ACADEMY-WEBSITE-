@@ -257,13 +257,26 @@ const AdminApplications = () => {
                         {new Date(app.created_at).toLocaleDateString()}
                       </td>
                       <td className="px-6 py-4 text-sm">
-                        <button
-                          onClick={() => handleDelete(app.id)}
-                          className="text-red-600 hover:text-red-800 font-medium flex items-center gap-1"
-                        >
-                          <Trash2 size={16} />
-                          Delete
-                        </button>
+                        <div className="flex gap-2">
+                          {app.resume_url && app.resume_url !== "No resume uploaded" && (
+                            <a
+                              href={app.resume_url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-blue-600 hover:text-blue-800 font-medium flex items-center gap-1"
+                            >
+                              <Download size={16} />
+                              Resume
+                            </a>
+                          )}
+                          <button
+                            onClick={() => handleDelete(app.id)}
+                            className="text-red-600 hover:text-red-800 font-medium flex items-center gap-1"
+                          >
+                            <Trash2 size={16} />
+                            Delete
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}
