@@ -99,7 +99,9 @@ const Careers = () => {
         status: "pending" as const,
       };
 
+      console.log("Submitting application:", applicationData);
       const result = await DatabaseService.submitJobApplication(applicationData);
+      console.log("Submission result:", result);
 
       if (result.success) {
         setSubmitStatus("success");
@@ -120,10 +122,12 @@ const Careers = () => {
       } else {
         setSubmitStatus("error");
         console.error("Application submission error:", result.error);
+        alert(`Error: ${result.error}`); // Show error to user
       }
     } catch (error) {
       setSubmitStatus("error");
       console.error("Unexpected error:", error);
+      alert(`Unexpected error: ${error instanceof Error ? error.message : 'Unknown error'}`);
     } finally {
       setIsSubmitting(false);
     }
@@ -541,8 +545,8 @@ const Careers = () => {
                       }`}
                     >
                       <option value="">Select a position</option>
-                      {openPositions.map((pos, index) => (
-                        <option key={index} value={pos.title}>
+                      {openPositions.map((pos) => (
+                        <option key={pos.id} value={pos.id}>
                           {pos.title}
                         </option>
                       ))}
