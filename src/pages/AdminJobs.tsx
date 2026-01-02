@@ -20,7 +20,9 @@ const AdminJobs = () => {
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [message, setMessage] = useState("");
-  const [messageType, setMessageType] = useState<"success" | "error">("success");
+  const [messageType, setMessageType] = useState<"success" | "error">(
+    "success"
+  );
   const [adminEmail, setAdminEmail] = useState("");
 
   const [formData, setFormData] = useState<JobOpening>({
@@ -212,7 +214,9 @@ const AdminJobs = () => {
             <div>
               <h1 className="text-3xl font-bold">Admin Dashboard</h1>
               <p className="text-blue-100">Manage Job Openings</p>
-              <p className="text-sm text-blue-200 mt-1">Logged in as: {adminEmail}</p>
+              <p className="text-sm text-blue-200 mt-1">
+                Logged in as: {adminEmail}
+              </p>
             </div>
             <button
               onClick={handleLogout}
@@ -220,6 +224,32 @@ const AdminJobs = () => {
             >
               <LogOut className="h-5 w-5 mr-2" />
               Logout
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Navigation Tabs */}
+      <div className="bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex gap-4">
+            <button
+              onClick={() => navigate("/admin/jobs")}
+              className="px-4 py-3 text-blue-600 border-b-2 border-blue-600 font-medium"
+            >
+              Job Openings
+            </button>
+            <button
+              onClick={() => navigate("/admin/applications")}
+              className="px-4 py-3 text-gray-600 hover:text-gray-800 font-medium"
+            >
+              Job Applications
+            </button>
+            <button
+              onClick={() => navigate("/admin/admissions")}
+              className="px-4 py-3 text-gray-600 hover:text-gray-800 font-medium"
+            >
+              Admissions
             </button>
           </div>
         </div>
@@ -242,7 +272,9 @@ const AdminJobs = () => {
               <AlertCircle className="h-5 w-5 mr-2 text-red-600" />
             )}
             <p
-              className={messageType === "success" ? "text-green-800" : "text-red-800"}
+              className={
+                messageType === "success" ? "text-green-800" : "text-red-800"
+              }
             >
               {message}
             </p>
@@ -504,7 +536,9 @@ const AdminJobs = () => {
 
         {/* Jobs List */}
         <div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Job Openings</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">
+            Job Openings
+          </h2>
 
           {loading ? (
             <div className="text-center py-12">
@@ -514,7 +548,9 @@ const AdminJobs = () => {
           ) : jobs.length === 0 ? (
             <div className="bg-white rounded-lg shadow p-8 text-center">
               <p className="text-gray-600 text-lg">No job openings yet.</p>
-              <p className="text-gray-500">Click "Add New Job" to create one.</p>
+              <p className="text-gray-500">
+                Click "Add New Job" to create one.
+              </p>
             </div>
           ) : (
             <div className="space-y-4">

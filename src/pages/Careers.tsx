@@ -88,25 +88,45 @@ const Careers = () => {
     setIsSubmitting(true);
     setSubmitStatus("idle");
 
-    // Simulate form submission (replace with actual API call)
-    setTimeout(() => {
-      setSubmitStatus("success");
-      setIsSubmitting(false);
+    try {
+      const applicationData = {
+        job_id: formData.position,
+        full_name: formData.fullName,
+        email: formData.email,
+        phone: formData.phone,
+        cover_letter: formData.coverLetter,
+        resume_url: formData.resume?.name || "submitted",
+        status: "pending" as const,
+      };
 
-      // Reset form
-      setTimeout(() => {
-        setFormData({
-          fullName: "",
-          email: "",
-          phone: "",
-          position: "",
-          coverLetter: "",
-          resume: null,
-        });
-        setErrors({});
-        setSubmitStatus("idle");
-      }, 3000);
-    }, 2000);
+      const result = await DatabaseService.submitJobApplication(applicationData);
+
+      if (result.success) {
+        setSubmitStatus("success");
+        
+        // Reset form after 3 seconds
+        setTimeout(() => {
+          setFormData({
+            fullName: "",
+            email: "",
+            phone: "",
+            position: "",
+            coverLetter: "",
+            resume: null,
+          });
+          setErrors({});
+          setSubmitStatus("idle");
+        }, 3000);
+      } else {
+        setSubmitStatus("error");
+        console.error("Application submission error:", result.error);
+      }
+    } catch (error) {
+      setSubmitStatus("error");
+      console.error("Unexpected error:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleInputChange = (

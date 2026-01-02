@@ -1,7 +1,19 @@
 import { supabase } from "../supabaseClient";
 
+export interface JobApplication {
+  id?: string;
+  job_id: string;
+  full_name: string;
+  email: string;
+  phone: string;
+  cover_letter: string;
+  resume_url?: string;
+  status: "pending" | "reviewed" | "rejected";
+  created_at?: string;
+  updated_at?: string;
+}
+
 export interface AdmissionData {
-  parent_name: string;
   parent_occupation?: string;
   parent_phone: string;
   parent_email: string;
@@ -37,7 +49,8 @@ export interface JobOpening {
   updated_at?: string;
 }
 
-export class DatabaseService {
+  // ===== ADMISSION FUNCTIONS =====
+
   // Submit a new admission application
   static async submitAdmission(data: AdmissionData) {
     try {
@@ -384,4 +397,137 @@ export class DatabaseService {
       };
     }
   }
+
+  // ===== JOB APPLICATION FUNCTIONS =====
+
+  // Submit a job application
+  static async submitJobApplication(applicationData: JobApplication) {
+    try {
+      const { data, error } = await supabase
+        .from("job_applications")
+        .insert([applicationData])
+        .select()
+        .single();
+
+      if (error) {
+        throw new Error(`Failed to submit application: ${error.message}`);
+      }
+
+      return { success: true, data };
+    } catch (error) {
+      console.error("Submit application error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
+      };
+    }
+  }
+
+  // Get all job applications (for admin use)
+  static async getAllJobApplications() {
+    try {
+      const { data, error } = await supabase
+        .from("job_applications")
+        .select(
+          `*,
+           jobs:job_id (title, department)`
+        )
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        throw new Error(`Failed to fetch applications: ${error.message}`);
+      }
+
+      return { success: true, data };
+    } catch (error) {
+      console.error("Fetch applications error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
+      };
+    }
+  }
+
+  // Get job applications by status
+  static async getJobApplicationsByStatus(
+    status: "pending" | "reviewed" | "rejected"
+  ) {
+    try {
+      const { data, error } = await supabase
+        .from("job_applications")
+        .select(
+          `*,
+           jobs:job_id (title, department)`
+        )
+        .eq("status", status)
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        throw new Error(`Failed to fetch applications: ${error.message}`);
+      }
+
+      return { success: true, data };
+    } catch (error) {
+      console.error("Fetch applications error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
+      };
+    }
+  }
+
+  // Update job application status
+  static async updateJobApplicationStatus(
+    applicationId: string,
+    status: "pending" | "reviewed" | "rejected"
+  ) {
+    try {
+      const { data, error } = await supabase
+        .from("job_applications")
+        .update({ status })
+        .eq("id", applicationId)
+        .select()
+        .single();
+
+      if (error) {
+        throw new Error(`Failed to update application: ${error.message}`);
+      }
+
+      return { success: true, data };
+    } catch (error) {
+      console.error("Update application error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
+      };
+    }
+  }
+
+  // Delete job application
+  static async deleteJobApplication(applicationId: string) {
+    try {
+      const { error } = await supabase
+        .from("job_applications")
+        .delete()
+        .eq("id", applicationId);
+
+      if (error) {
+        throw new Error(`Failed to delete application: ${error.message}`);
+      }
+
+      return { success: true, message: "Application deleted successfully" };
+    } catch (error) {
+      console.error("Delete application error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
+      };
+    }
+  }
 }
+

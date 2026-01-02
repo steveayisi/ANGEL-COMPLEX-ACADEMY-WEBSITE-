@@ -10,6 +10,8 @@ import Contact from "./pages/Contact";
 import Careers from "./pages/Careers";
 import AdminLogin from "./pages/AdminLogin";
 import AdminJobs from "./pages/AdminJobs";
+import AdminApplications from "./pages/AdminApplications";
+import AdminAdmissions from "./pages/AdminAdmissions";
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
         {/* Admin Routes (without Layout) */}
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin/jobs" element={<AdminJobs />} />
+        <Route path="/admin/applications" element={<AdminApplications />} />
+        <Route path="/admin/admissions" element={<AdminAdmissions />} />
 
         {/* Public Routes (with Layout) */}
         <Route
