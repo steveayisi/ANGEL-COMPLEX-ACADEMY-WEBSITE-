@@ -94,23 +94,30 @@ const Careers = () => {
 
       // Upload resume to Supabase Storage if provided
       if (formData.resume) {
+        console.log("Starting file upload:", formData.resume.name);
         const fileExt = formData.resume.name.split('.').pop();
         const fileName = `${Date.now()}_${formData.fullName.replace(/\s+/g, '_')}.${fileExt}`;
         const filePath = `resumes/${fileName}`;
 
+        console.log("Uploading to path:", filePath);
         const { data: uploadData, error: uploadError } = await supabase.storage
           .from('applications')
           .upload(filePath, formData.resume);
 
         if (uploadError) {
+          console.error("Upload error:", uploadError);
+          alert(`Failed to upload resume: ${uploadError.message}`);
           throw new Error(`Failed to upload resume: ${uploadError.message}`);
         }
+
+        console.log("Upload successful:", uploadData);
 
         // Get public URL
         const { data: { publicUrl } } = supabase.storage
           .from('applications')
           .getPublicUrl(filePath);
 
+        console.log("Public URL generated:", publicUrl);
         resumeUrl = publicUrl;
       }
 

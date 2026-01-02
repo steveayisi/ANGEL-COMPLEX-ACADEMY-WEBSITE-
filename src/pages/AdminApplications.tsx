@@ -263,6 +263,13 @@ const AdminApplications = () => {
                               href={app.resume_url}
                               target="_blank"
                               rel="noopener noreferrer"
+                              onClick={(e) => {
+                                console.log("Resume URL:", app.resume_url);
+                                if (!app.resume_url.startsWith('http')) {
+                                  e.preventDefault();
+                                  alert('Invalid resume URL: ' + app.resume_url);
+                                }
+                              }}
                               className="text-blue-600 hover:text-blue-800 font-medium flex items-center gap-1"
                             >
                               <Download size={16} />
