@@ -42,10 +42,9 @@ const Careers = () => {
 
   const fetchJobs = async () => {
     setLoadingJobs(true);
-    const result = await DatabaseService.getJobs();
+    const result = await DatabaseService.getJobOpenings();
     if (result.success && result.data) {
-      // Filter only active jobs
-      setOpenPositions(result.data.filter((job) => job.is_active));
+      setOpenPositions(result.data);
     } else {
       console.error("Failed to fetch jobs:", result.error);
     }
@@ -59,7 +58,8 @@ const Careers = () => {
     if (!formData.email.trim()) newErrors.email = "Email is required";
     if (!formData.phone.trim()) newErrors.phone = "Phone number is required";
     if (!formData.position) newErrors.position = "Please select a position";
-    if (!formData.coverLetter.trim()) newErrors.coverLetter = "Cover letter is required";
+    if (!formData.coverLetter.trim())
+      newErrors.coverLetter = "Cover letter is required";
     if (!formData.resume) newErrors.resume = "Please upload your resume/CV";
 
     // Email validation
@@ -273,92 +273,96 @@ const Careers = () => {
             </div>
           ) : openPositions.length === 0 ? (
             <div className="bg-white rounded-lg shadow-md p-8 text-center">
-              <p className="text-gray-600 text-lg">No job openings available at the moment.</p>
-              <p className="text-gray-500">Please check back later or contact us directly.</p>
+              <p className="text-gray-600 text-lg">
+                No job openings available at the moment.
+              </p>
+              <p className="text-gray-500">
+                Please check back later or contact us directly.
+              </p>
             </div>
           ) : (
             <div className="space-y-6">
-            {openPositions.map((position, index) => (
-              <div
-                key={index}
-                className="bg-white rounded-lg shadow-md p-8 hover:shadow-lg transition-shadow"
-              >
-                <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-6">
-                  <div className="flex-1">
-                    <h3 className="text-2xl font-bold text-gray-900 mb-2">
-                      {position.title}
-                    </h3>
-                    <div className="flex flex-wrap gap-4 text-sm text-gray-600 mb-4">
-                      <span className="flex items-center">
-                        <Briefcase className="h-4 w-4 mr-1" />
-                        {position.department}
-                      </span>
-                      <span className="flex items-center">
-                        <Clock className="h-4 w-4 mr-1" />
-                        {position.type}
-                      </span>
-                      <span className="flex items-center">
-                        <MapPin className="h-4 w-4 mr-1" />
-                        {position.location}
-                      </span>
-                      <span className="flex items-center">
-                        <DollarSign className="h-4 w-4 mr-1" />
-                        {position.salary}
-                      </span>
+              {openPositions.map((position, index) => (
+                <div
+                  key={index}
+                  className="bg-white rounded-lg shadow-md p-8 hover:shadow-lg transition-shadow"
+                >
+                  <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-6">
+                    <div className="flex-1">
+                      <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                        {position.title}
+                      </h3>
+                      <div className="flex flex-wrap gap-4 text-sm text-gray-600 mb-4">
+                        <span className="flex items-center">
+                          <Briefcase className="h-4 w-4 mr-1" />
+                          {position.department}
+                        </span>
+                        <span className="flex items-center">
+                          <Clock className="h-4 w-4 mr-1" />
+                          {position.type}
+                        </span>
+                        <span className="flex items-center">
+                          <MapPin className="h-4 w-4 mr-1" />
+                          {position.location}
+                        </span>
+                        <span className="flex items-center">
+                          <DollarSign className="h-4 w-4 mr-1" />
+                          {position.salary}
+                        </span>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => {
+                        setFormData({ ...formData, position: position.title });
+                        document
+                          .getElementById("application-form")
+                          ?.scrollIntoView({ behavior: "smooth" });
+                      }}
+                      className="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors mt-4 lg:mt-0"
+                    >
+                      Apply Now
+                    </button>
+                  </div>
+
+                  <p className="text-gray-700 mb-6">{position.description}</p>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <h4 className="font-semibold text-gray-900 mb-3">
+                        Requirements:
+                      </h4>
+                      <ul className="space-y-2">
+                        {position.requirements.map((req, reqIndex) => (
+                          <li
+                            key={reqIndex}
+                            className="flex items-start text-gray-700"
+                          >
+                            <CheckCircle className="h-5 w-5 text-green-600 mr-2 flex-shrink-0 mt-0.5" />
+                            <span>{req}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div>
+                      <h4 className="font-semibold text-gray-900 mb-3">
+                        Responsibilities:
+                      </h4>
+                      <ul className="space-y-2">
+                        {position.responsibilities.map((resp, respIndex) => (
+                          <li
+                            key={respIndex}
+                            className="flex items-start text-gray-700"
+                          >
+                            <CheckCircle className="h-5 w-5 text-blue-600 mr-2 flex-shrink-0 mt-0.5" />
+                            <span>{resp}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   </div>
-                  <button
-                    onClick={() => {
-                      setFormData({ ...formData, position: position.title });
-                      document
-                        .getElementById("application-form")
-                        ?.scrollIntoView({ behavior: "smooth" });
-                    }}
-                    className="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors mt-4 lg:mt-0"
-                  >
-                    Apply Now
-                  </button>
                 </div>
-
-                <p className="text-gray-700 mb-6">{position.description}</p>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <h4 className="font-semibold text-gray-900 mb-3">
-                      Requirements:
-                    </h4>
-                    <ul className="space-y-2">
-                      {position.requirements.map((req, reqIndex) => (
-                        <li
-                          key={reqIndex}
-                          className="flex items-start text-gray-700"
-                        >
-                          <CheckCircle className="h-5 w-5 text-green-600 mr-2 flex-shrink-0 mt-0.5" />
-                          <span>{req}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div>
-                    <h4 className="font-semibold text-gray-900 mb-3">
-                      Responsibilities:
-                    </h4>
-                    <ul className="space-y-2">
-                      {position.responsibilities.map((resp, respIndex) => (
-                        <li
-                          key={respIndex}
-                          className="flex items-start text-gray-700"
-                        >
-                          <CheckCircle className="h-5 w-5 text-blue-600 mr-2 flex-shrink-0 mt-0.5" />
-                          <span>{resp}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            ))}
+              ))}
             </div>
           )}
         </div>
@@ -564,9 +568,11 @@ const Careers = () => {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Upload Resume/CV *
                 </label>
-                <div className={`border-2 border-dashed rounded-lg p-6 text-center hover:border-blue-500 transition-colors ${
-                  errors.resume ? "border-red-500" : "border-gray-300"
-                }`}>
+                <div
+                  className={`border-2 border-dashed rounded-lg p-6 text-center hover:border-blue-500 transition-colors ${
+                    errors.resume ? "border-red-500" : "border-gray-300"
+                  }`}
+                >
                   <Upload className="h-12 w-12 text-gray-400 mx-auto mb-3" />
                   <label
                     htmlFor="resume"
