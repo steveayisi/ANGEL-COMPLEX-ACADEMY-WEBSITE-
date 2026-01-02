@@ -14,7 +14,9 @@ const AdminAdmissions = () => {
     "all" | "pending" | "under_review" | "accepted" | "rejected"
   >("all");
   const [message, setMessage] = useState("");
-  const [messageType, setMessageType] = useState<"success" | "error">("success");
+  const [messageType, setMessageType] = useState<"success" | "error">(
+    "success"
+  );
 
   useEffect(() => {
     checkAuth();
@@ -31,7 +33,9 @@ const AdminAdmissions = () => {
         return;
       }
       setAdminEmail(user.email || "");
-      setAdminName(user.user_metadata?.full_name || user.email?.split('@')[0] || "Admin");
+      setAdminName(
+        user.user_metadata?.full_name || user.email?.split("@")[0] || "Admin"
+      );
     } catch (error) {
       navigate("/admin/login");
     }
@@ -118,7 +122,9 @@ const AdminAdmissions = () => {
             </div>
             <div className="flex gap-2 items-center">
               <div className="text-right mr-2">
-                <p className="text-sm font-semibold text-gray-800">{adminName}</p>
+                <p className="text-sm font-semibold text-gray-800">
+                  {adminName}
+                </p>
                 <p className="text-xs text-gray-500">{adminEmail}</p>
               </div>
               <button
@@ -151,6 +157,12 @@ const AdminAdmissions = () => {
             >
               Admissions
             </button>
+            <button
+              onClick={() => navigate("/admin/updates")}
+              className="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium"
+            >
+              News & Updates
+            </button>
           </div>
         </div>
 
@@ -170,7 +182,15 @@ const AdminAdmissions = () => {
         {/* Filter */}
         <div className="mb-6">
           <div className="flex gap-2 flex-wrap">
-            {(["all", "pending", "under_review", "accepted", "rejected"] as const).map((status) => (
+            {(
+              [
+                "all",
+                "pending",
+                "under_review",
+                "accepted",
+                "rejected",
+              ] as const
+            ).map((status) => (
               <button
                 key={status}
                 onClick={() => setFilterStatus(status)}
@@ -226,9 +246,16 @@ const AdminAdmissions = () => {
                 </thead>
                 <tbody>
                   {admissions.map((admission) => (
-                    <tr key={admission.id} className="border-b hover:bg-gray-50">
-                      <td className="px-6 py-4 text-sm text-gray-900">{admission.parent_name}</td>
-                      <td className="px-6 py-4 text-sm text-gray-900">{admission.child_name}</td>
+                    <tr
+                      key={admission.id}
+                      className="border-b hover:bg-gray-50"
+                    >
+                      <td className="px-6 py-4 text-sm text-gray-900">
+                        {admission.parent_name}
+                      </td>
+                      <td className="px-6 py-4 text-sm text-gray-900">
+                        {admission.child_name}
+                      </td>
                       <td className="px-6 py-4 text-sm text-gray-600">
                         <a
                           href={`mailto:${admission.parent_email}`}
@@ -283,24 +310,36 @@ const AdminAdmissions = () => {
           <div className="mt-8 grid grid-cols-1 md:grid-cols-4 gap-4">
             <div className="bg-white rounded-lg shadow p-6">
               <p className="text-gray-600 text-sm">Total Applications</p>
-              <p className="text-3xl font-bold text-gray-800">{admissions.length}</p>
+              <p className="text-3xl font-bold text-gray-800">
+                {admissions.length}
+              </p>
             </div>
             <div className="bg-white rounded-lg shadow p-6">
               <p className="text-gray-600 text-sm">Accepted</p>
               <p className="text-3xl font-bold text-green-600">
-                {admissions.filter((a) => a.application_status === "accepted").length}
+                {
+                  admissions.filter((a) => a.application_status === "accepted")
+                    .length
+                }
               </p>
             </div>
             <div className="bg-white rounded-lg shadow p-6">
               <p className="text-gray-600 text-sm">Under Review</p>
               <p className="text-3xl font-bold text-blue-600">
-                {admissions.filter((a) => a.application_status === "under_review").length}
+                {
+                  admissions.filter(
+                    (a) => a.application_status === "under_review"
+                  ).length
+                }
               </p>
             </div>
             <div className="bg-white rounded-lg shadow p-6">
               <p className="text-gray-600 text-sm">Rejected</p>
               <p className="text-3xl font-bold text-red-600">
-                {admissions.filter((a) => a.application_status === "rejected").length}
+                {
+                  admissions.filter((a) => a.application_status === "rejected")
+                    .length
+                }
               </p>
             </div>
           </div>

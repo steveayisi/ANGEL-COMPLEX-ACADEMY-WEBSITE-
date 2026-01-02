@@ -50,6 +50,27 @@ export interface JobOpening {
   updated_at?: string;
 }
 
+export interface NewsUpdate {
+  id?: string;
+  title: string;
+  date: string;
+  author: string;
+  category:
+    | "Achievement"
+    | "Facilities"
+    | "Academic"
+    | "Sports"
+    | "Events"
+    | "Resources";
+  excerpt: string;
+  content: string;
+  image_url?: string;
+  is_featured: boolean;
+  is_published: boolean;
+  created_at?: string;
+  updated_at?: string;
+}
+
 export class DatabaseService {
   // ===== ADMISSION FUNCTIONS =====
 
@@ -531,5 +552,153 @@ export class DatabaseService {
       };
     }
   }
-}
 
+  // ===== NEWS UPDATES FUNCTIONS =====
+
+  // Get all published news updates
+  static async getAllPublishedUpdates() {
+    try {
+      const { data, error } = await supabase
+        .from("news_updates")
+        .select("*")
+        .eq("is_published", true)
+        .order("date", { ascending: false });
+
+      if (error) {
+        throw new Error(`Failed to fetch updates: ${error.message}`);
+      }
+
+      return { success: true, data };
+    } catch (error) {
+      console.error("Fetch updates error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
+      };
+    }
+  }
+
+  // Get featured news update
+  static async getFeaturedUpdate() {
+    try {
+      const { data, error } = await supabase
+        .from("news_updates")
+        .select("*")
+        .eq("is_featured", true)
+        .eq("is_published", true)
+        .order("date", { ascending: false })
+        .limit(1)
+        .single();
+
+      if (error && error.code !== "PGRST116") {
+        // PGRST116 is "not found" error
+        throw new Error(`Failed to fetch featured update: ${error.message}`);
+      }
+
+      return { success: true, data };
+    } catch (error) {
+      console.error("Fetch featured update error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
+      };
+    }
+  }
+
+  // Get all news updates (for admin use)
+  static async getAllUpdates() {
+    try {
+      const { data, error } = await supabase
+        .from("news_updates")
+        .select("*")
+        .order("date", { ascending: false });
+
+      if (error) {
+        throw new Error(`Failed to fetch updates: ${error.message}`);
+      }
+
+      return { success: true, data };
+    } catch (error) {
+      console.error("Fetch updates error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
+      };
+    }
+  }
+
+  // Create news update
+  static async createUpdate(updateData: NewsUpdate) {
+    try {
+      const { data, error } = await supabase
+        .from("news_updates")
+        .insert([updateData])
+        .select()
+        .single();
+
+      if (error) {
+        throw new Error(`Failed to create update: ${error.message}`);
+      }
+
+      return { success: true, data };
+    } catch (error) {
+      console.error("Create update error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
+      };
+    }
+  }
+
+  // Update news update
+  static async updateNewsUpdate(id: string, updateData: Partial<NewsUpdate>) {
+    try {
+      const { data, error } = await supabase
+        .from("news_updates")
+        .update(updateData)
+        .eq("id", id)
+        .select()
+        .single();
+
+      if (error) {
+        throw new Error(`Failed to update news: ${error.message}`);
+      }
+
+      return { success: true, data };
+    } catch (error) {
+      console.error("Update news error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
+      };
+    }
+  }
+
+  // Delete news update
+  static async deleteUpdate(id: string) {
+    try {
+      const { error } = await supabase
+        .from("news_updates")
+        .delete()
+        .eq("id", id);
+
+      if (error) {
+        throw new Error(`Failed to delete update: ${error.message}`);
+      }
+
+      return { success: true, message: "Update deleted successfully" };
+    } catch (error) {
+      console.error("Delete update error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
+      };
+    }
+  }
+}

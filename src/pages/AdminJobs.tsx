@@ -57,7 +57,9 @@ const AdminJobs = () => {
         return;
       }
       setAdminEmail(user.email || "");
-      setAdminName(user.user_metadata?.full_name || user.email?.split('@')[0] || "Admin");
+      setAdminName(
+        user.user_metadata?.full_name || user.email?.split("@")[0] || "Admin"
+      );
     } catch (error) {
       navigate("/admin/login");
     }
@@ -253,6 +255,12 @@ const AdminJobs = () => {
               className="px-4 py-3 text-gray-600 hover:text-gray-800 font-medium"
             >
               Admissions
+            </button>
+            <button
+              onClick={() => navigate("/admin/updates")}
+              className="px-4 py-3 text-gray-600 hover:text-gray-800 font-medium"
+            >
+              News & Updates
             </button>
           </div>
         </div>

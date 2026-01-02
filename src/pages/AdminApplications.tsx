@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { LogOut, Download, Trash2, CheckCircle, Clock, XCircle } from "lucide-react";
+import {
+  LogOut,
+  Download,
+  Trash2,
+  CheckCircle,
+  Clock,
+  XCircle,
+} from "lucide-react";
 import { DatabaseService, type JobApplication } from "../lib/database";
 import { supabase } from "../supabaseClient";
 
@@ -10,9 +17,13 @@ const AdminApplications = () => {
   const [loading, setLoading] = useState(true);
   const [adminEmail, setAdminEmail] = useState("");
   const [adminName, setAdminName] = useState("");
-  const [filterStatus, setFilterStatus] = useState<"all" | "pending" | "reviewed" | "rejected">("all");
+  const [filterStatus, setFilterStatus] = useState<
+    "all" | "pending" | "reviewed" | "rejected"
+  >("all");
   const [message, setMessage] = useState("");
-  const [messageType, setMessageType] = useState<"success" | "error">("success");
+  const [messageType, setMessageType] = useState<"success" | "error">(
+    "success"
+  );
 
   useEffect(() => {
     checkAuth();
@@ -29,7 +40,9 @@ const AdminApplications = () => {
         return;
       }
       setAdminEmail(user.email || "");
-      setAdminName(user.user_metadata?.full_name || user.email?.split('@')[0] || "Admin");
+      setAdminName(
+        user.user_metadata?.full_name || user.email?.split("@")[0] || "Admin"
+      );
     } catch (error) {
       navigate("/admin/login");
     }
@@ -59,9 +72,15 @@ const AdminApplications = () => {
     setLoading(false);
   };
 
-  const handleStatusChange = async (applicationId: string, newStatus: "pending" | "reviewed" | "rejected") => {
+  const handleStatusChange = async (
+    applicationId: string,
+    newStatus: "pending" | "reviewed" | "rejected"
+  ) => {
     try {
-      const result = await DatabaseService.updateJobApplicationStatus(applicationId, newStatus);
+      const result = await DatabaseService.updateJobApplicationStatus(
+        applicationId,
+        newStatus
+      );
       if (result.success) {
         setMessage("Application status updated");
         setMessageType("success");
@@ -79,7 +98,9 @@ const AdminApplications = () => {
   const handleDelete = async (applicationId: string) => {
     if (confirm("Are you sure you want to delete this application?")) {
       try {
-        const result = await DatabaseService.deleteJobApplication(applicationId);
+        const result = await DatabaseService.deleteJobApplication(
+          applicationId
+        );
         if (result.success) {
           setMessage("Application deleted");
           setMessageType("success");
@@ -133,12 +154,16 @@ const AdminApplications = () => {
         <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
           <div className="flex justify-between items-center mb-4">
             <div>
-              <h1 className="text-3xl font-bold text-gray-800">Job Applications</h1>
+              <h1 className="text-3xl font-bold text-gray-800">
+                Job Applications
+              </h1>
               <p className="text-gray-600">Admin Portal</p>
             </div>
             <div className="flex gap-2 items-center">
               <div className="text-right mr-2">
-                <p className="text-sm font-semibold text-gray-800">{adminName}</p>
+                <p className="text-sm font-semibold text-gray-800">
+                  {adminName}
+                </p>
                 <p className="text-xs text-gray-500">{adminEmail}</p>
               </div>
               <button
@@ -171,6 +196,12 @@ const AdminApplications = () => {
             >
               Admissions
             </button>
+            <button
+              onClick={() => navigate("/admin/updates")}
+              className="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium"
+            >
+              News & Updates
+            </button>
           </div>
         </div>
 
@@ -178,7 +209,9 @@ const AdminApplications = () => {
         {message && (
           <div
             className={`mb-6 p-4 rounded-lg ${
-              messageType === "success" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
+              messageType === "success"
+                ? "bg-green-100 text-green-800"
+                : "bg-red-100 text-red-800"
             }`}
           >
             {message}
@@ -188,19 +221,21 @@ const AdminApplications = () => {
         {/* Filter */}
         <div className="mb-6">
           <div className="flex gap-2">
-            {(["all", "pending", "reviewed", "rejected"] as const).map((status) => (
-              <button
-                key={status}
-                onClick={() => setFilterStatus(status)}
-                className={`px-4 py-2 rounded-lg font-medium transition capitalize ${
-                  filterStatus === status
-                    ? "bg-blue-600 text-white"
-                    : "bg-white text-gray-700 hover:bg-gray-100"
-                }`}
-              >
-                {status}
-              </button>
-            ))}
+            {(["all", "pending", "reviewed", "rejected"] as const).map(
+              (status) => (
+                <button
+                  key={status}
+                  onClick={() => setFilterStatus(status)}
+                  className={`px-4 py-2 rounded-lg font-medium transition capitalize ${
+                    filterStatus === status
+                      ? "bg-blue-600 text-white"
+                      : "bg-white text-gray-700 hover:bg-gray-100"
+                  }`}
+                >
+                  {status}
+                </button>
+              )
+            )}
           </div>
         </div>
 
@@ -219,26 +254,48 @@ const AdminApplications = () => {
               <table className="w-full">
                 <thead className="bg-gray-100 border-b">
                   <tr>
-                    <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Name</th>
-                    <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Email</th>
-                    <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Phone</th>
-                    <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Position</th>
-                    <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Status</th>
-                    <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Applied Date</th>
-                    <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Actions</th>
+                    <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">
+                      Name
+                    </th>
+                    <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">
+                      Email
+                    </th>
+                    <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">
+                      Phone
+                    </th>
+                    <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">
+                      Position
+                    </th>
+                    <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">
+                      Status
+                    </th>
+                    <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">
+                      Applied Date
+                    </th>
+                    <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">
+                      Actions
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   {applications.map((app) => (
                     <tr key={app.id} className="border-b hover:bg-gray-50">
-                      <td className="px-6 py-4 text-sm text-gray-900">{app.full_name}</td>
+                      <td className="px-6 py-4 text-sm text-gray-900">
+                        {app.full_name}
+                      </td>
                       <td className="px-6 py-4 text-sm text-gray-600">
-                        <a href={`mailto:${app.email}`} className="text-blue-600 hover:underline">
+                        <a
+                          href={`mailto:${app.email}`}
+                          className="text-blue-600 hover:underline"
+                        >
                           {app.email}
                         </a>
                       </td>
                       <td className="px-6 py-4 text-sm text-gray-600">
-                        <a href={`tel:${app.phone}`} className="text-blue-600 hover:underline">
+                        <a
+                          href={`tel:${app.phone}`}
+                          className="text-blue-600 hover:underline"
+                        >
                           {app.phone}
                         </a>
                       </td>
@@ -248,7 +305,9 @@ const AdminApplications = () => {
                       <td className="px-6 py-4 text-sm">
                         <select
                           value={app.status}
-                          onChange={(e) => handleStatusChange(app.id, e.target.value as any)}
+                          onChange={(e) =>
+                            handleStatusChange(app.id, e.target.value as any)
+                          }
                           className={`px-3 py-1 rounded-full text-sm font-medium cursor-pointer ${getStatusColor(
                             app.status
                           )}`}
@@ -263,24 +322,27 @@ const AdminApplications = () => {
                       </td>
                       <td className="px-6 py-4 text-sm">
                         <div className="flex gap-2">
-                          {app.resume_url && app.resume_url !== "No resume uploaded" && (
-                            <a
-                              href={app.resume_url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              onClick={(e) => {
-                                console.log("Resume URL:", app.resume_url);
-                                if (!app.resume_url.startsWith('http')) {
-                                  e.preventDefault();
-                                  alert('Invalid resume URL: ' + app.resume_url);
-                                }
-                              }}
-                              className="text-blue-600 hover:text-blue-800 font-medium flex items-center gap-1"
-                            >
-                              <Download size={16} />
-                              Resume
-                            </a>
-                          )}
+                          {app.resume_url &&
+                            app.resume_url !== "No resume uploaded" && (
+                              <a
+                                href={app.resume_url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={(e) => {
+                                  console.log("Resume URL:", app.resume_url);
+                                  if (!app.resume_url.startsWith("http")) {
+                                    e.preventDefault();
+                                    alert(
+                                      "Invalid resume URL: " + app.resume_url
+                                    );
+                                  }
+                                }}
+                                className="text-blue-600 hover:text-blue-800 font-medium flex items-center gap-1"
+                              >
+                                <Download size={16} />
+                                Resume
+                              </a>
+                            )}
                           <button
                             onClick={() => handleDelete(app.id)}
                             className="text-red-600 hover:text-red-800 font-medium flex items-center gap-1"
@@ -301,11 +363,15 @@ const AdminApplications = () => {
         {/* Details View */}
         {applications.length > 0 && (
           <div className="mt-8">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">Application Details</h2>
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">
+              Application Details
+            </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {applications.map((app) => (
                 <div key={app.id} className="bg-white rounded-lg shadow p-6">
-                  <h3 className="font-bold text-lg text-gray-800 mb-2">{app.full_name}</h3>
+                  <h3 className="font-bold text-lg text-gray-800 mb-2">
+                    {app.full_name}
+                  </h3>
                   <p className="text-sm text-gray-600 mb-1">
                     <strong>Email:</strong> {app.email}
                   </p>
@@ -316,13 +382,17 @@ const AdminApplications = () => {
                     <strong>Position:</strong> {app.jobs?.title}
                   </p>
                   <div className="bg-gray-50 p-3 rounded mb-3 max-h-24 overflow-y-auto">
-                    <p className="text-xs text-gray-700 font-semibold mb-1">Cover Letter:</p>
+                    <p className="text-xs text-gray-700 font-semibold mb-1">
+                      Cover Letter:
+                    </p>
                     <p className="text-xs text-gray-600">{app.cover_letter}</p>
                   </div>
                   <div className="flex gap-2">
                     <select
                       value={app.status}
-                      onChange={(e) => handleStatusChange(app.id, e.target.value as any)}
+                      onChange={(e) =>
+                        handleStatusChange(app.id, e.target.value as any)
+                      }
                       className={`flex-1 px-2 py-1 rounded text-xs font-medium cursor-pointer ${getStatusColor(
                         app.status
                       )}`}

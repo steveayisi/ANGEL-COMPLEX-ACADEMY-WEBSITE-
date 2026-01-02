@@ -16,7 +16,6 @@ import { DatabaseService, type JobOpening } from "../lib/database";
 import { supabase } from "../supabaseClient";
 
 // Import background image
-import angelspic from "../assets/angelspic.jpg";
 
 const Careers = () => {
   const [formData, setFormData] = useState({
@@ -95,13 +94,16 @@ const Careers = () => {
       // Upload resume to Supabase Storage if provided
       if (formData.resume) {
         console.log("Starting file upload:", formData.resume.name);
-        const fileExt = formData.resume.name.split('.').pop();
-        const fileName = `${Date.now()}_${formData.fullName.replace(/\s+/g, '_')}.${fileExt}`;
+        const fileExt = formData.resume.name.split(".").pop();
+        const fileName = `${Date.now()}_${formData.fullName.replace(
+          /\s+/g,
+          "_"
+        )}.${fileExt}`;
         const filePath = `resumes/${fileName}`;
 
         console.log("Uploading to path:", filePath);
         const { data: uploadData, error: uploadError } = await supabase.storage
-          .from('applications')
+          .from("applications")
           .upload(filePath, formData.resume);
 
         if (uploadError) {
@@ -113,9 +115,9 @@ const Careers = () => {
         console.log("Upload successful:", uploadData);
 
         // Get public URL
-        const { data: { publicUrl } } = supabase.storage
-          .from('applications')
-          .getPublicUrl(filePath);
+        const {
+          data: { publicUrl },
+        } = supabase.storage.from("applications").getPublicUrl(filePath);
 
         console.log("Public URL generated:", publicUrl);
         resumeUrl = publicUrl;
@@ -132,12 +134,14 @@ const Careers = () => {
       };
 
       console.log("Submitting application:", applicationData);
-      const result = await DatabaseService.submitJobApplication(applicationData);
+      const result = await DatabaseService.submitJobApplication(
+        applicationData
+      );
       console.log("Submission result:", result);
 
       if (result.success) {
         setSubmitStatus("success");
-        
+
         // Reset form after 3 seconds
         setTimeout(() => {
           setFormData({
@@ -159,7 +163,11 @@ const Careers = () => {
     } catch (error) {
       setSubmitStatus("error");
       console.error("Unexpected error:", error);
-      alert(`Unexpected error: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      alert(
+        `Unexpected error: ${
+          error instanceof Error ? error.message : "Unknown error"
+        }`
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -227,16 +235,7 @@ const Careers = () => {
   return (
     <div className="bg-white">
       {/* Hero Section */}
-      <section
-        className="relative text-white py-20"
-        style={{
-          backgroundImage: `url(${angelspic})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          minHeight: "60vh",
-        }}
-      >
+      <section className="relative text-white py-20 careers-hero">
         <div className="absolute inset-0 bg-black opacity-60"></div>
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
@@ -369,7 +368,10 @@ const Careers = () => {
                     </div>
                     <button
                       onClick={() => {
-                        setFormData({ ...formData, position: position.title });
+                        setFormData({
+                          ...formData,
+                          position: position.id || position.title,
+                        });
                         document
                           .getElementById("application-form")
                           ?.scrollIntoView({ behavior: "smooth" });
