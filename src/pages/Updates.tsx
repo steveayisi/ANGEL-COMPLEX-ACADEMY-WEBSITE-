@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { DatabaseService, NewsUpdate } from "../lib/database";
+import { DatabaseService, NewsUpdate, Announcement } from "../lib/database";
 import {
   Calendar,
-  Clock,
   User,
   ArrowRight,
-  Bell,
   Star,
-  Award,
+  Bell,
+  Clock,
 } from "lucide-react";
 const Updates = () => {
   const [featuredNews, setFeaturedNews] = useState<NewsUpdate | null>(null);
   const [newsUpdates, setNewsUpdates] = useState<NewsUpdate[]>([]);
+  const [announcements, setAnnouncements] = useState<Announcement[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -31,6 +31,12 @@ const Updates = () => {
     const updatesResult = await DatabaseService.getAllPublishedUpdates();
     if (updatesResult.success && updatesResult.data) {
       setNewsUpdates(updatesResult.data);
+    }
+
+    // Fetch active announcements
+    const announcementsResult = await DatabaseService.getActiveAnnouncements();
+    if (announcementsResult.success && announcementsResult.data) {
+      setAnnouncements(announcementsResult.data);
     }
 
     setLoading(false);
@@ -55,6 +61,21 @@ const Updates = () => {
     }
   };
 
+  const getAnnouncementTypeColor = (type: string) => {
+    switch (type) {
+      case "info":
+        return "border-l-4 border-blue-500 bg-blue-50";
+      case "warning":
+        return "border-l-4 border-yellow-500 bg-yellow-50";
+      case "success":
+        return "border-l-4 border-green-500 bg-green-50";
+      case "event":
+        return "border-l-4 border-purple-500 bg-purple-50";
+      default:
+        return "border-l-4 border-gray-500 bg-gray-50";
+    }
+  };
+
   return (
     <div className="bg-white">
       {/* Hero Section */}
@@ -73,6 +94,45 @@ const Updates = () => {
           </div>
         </div>
       </section>
+
+      {/* Announcements Section */}
+      {announcements.length > 0 && (
+        <section className="py-20 bg-gray-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Important Announcements
+              </h2>
+              <p className="text-xl text-gray-600">
+                Stay up to date with important school notices
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {announcements.map((announcement) => (
+                <div
+                  key={announcement.id}
+                  className={`p-6 rounded-lg ${getAnnouncementTypeColor(announcement.type)}`}
+                >
+                  <div className="flex items-center mb-2">
+                    <Bell className="h-5 w-5 mr-2 text-gray-600" />
+                    <h3 className="font-semibold text-lg text-gray-900">
+                      {announcement.title}
+                    </h3>
+                  </div>
+                  <p className="text-gray-700 mb-3">{announcement.message}</p>
+                  <div className="flex items-center text-gray-600">
+                    <Clock className="h-4 w-4 mr-1" />
+                    <span className="text-sm">
+                      {new Date(announcement.created_at!).toLocaleDateString()}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Featured News - Only show if exists */}
       {loading ? (

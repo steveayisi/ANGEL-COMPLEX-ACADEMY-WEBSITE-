@@ -13,6 +13,7 @@ import AdminJobs from "./pages/AdminJobs";
 import AdminApplications from "./pages/AdminApplications";
 import AdminAdmissions from "./pages/AdminAdmissions";
 import AdminUpdates from "./pages/AdminUpdates";
+import AdminAnnouncements from "./pages/AdminAnnouncements";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/admin/applications" element={<AdminApplications />} />
         <Route path="/admin/admissions" element={<AdminAdmissions />} />
         <Route path="/admin/updates" element={<AdminUpdates />} />
+        <Route path="/admin/announcements" element={<AdminAnnouncements />} />
 
         {/* Public Routes (with Layout) */}
         <Route

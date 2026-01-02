@@ -71,6 +71,16 @@ export interface NewsUpdate {
   updated_at?: string;
 }
 
+export interface Announcement {
+  id?: string;
+  title: string;
+  message: string;
+  type: "info" | "warning" | "success" | "event";
+  is_active: boolean;
+  created_at?: string;
+  updated_at?: string;
+}
+
 export class DatabaseService {
   // ===== ADMISSION FUNCTIONS =====
 
@@ -694,6 +704,127 @@ export class DatabaseService {
       return { success: true, message: "Update deleted successfully" };
     } catch (error) {
       console.error("Delete update error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
+      };
+    }
+  }
+
+  // ===== ANNOUNCEMENTS FUNCTIONS =====
+
+  // Create announcement
+  static async createAnnouncement(announcementData: Announcement) {
+    try {
+      const { data, error } = await supabase
+        .from("announcements")
+        .insert([announcementData])
+        .select()
+        .single();
+
+      if (error) {
+        throw new Error(`Failed to create announcement: ${error.message}`);
+      }
+
+      return { success: true, data };
+    } catch (error) {
+      console.error("Create announcement error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
+      };
+    }
+  }
+
+  // Update announcement
+  static async updateAnnouncement(id: string, announcementData: Partial<Announcement>) {
+    try {
+      const { data, error } = await supabase
+        .from("announcements")
+        .update(announcementData)
+        .eq("id", id)
+        .select()
+        .single();
+
+      if (error) {
+        throw new Error(`Failed to update announcement: ${error.message}`);
+      }
+
+      return { success: true, data };
+    } catch (error) {
+      console.error("Update announcement error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
+      };
+    }
+  }
+
+  // Delete announcement
+  static async deleteAnnouncement(id: string) {
+    try {
+      const { error } = await supabase
+        .from("announcements")
+        .delete()
+        .eq("id", id);
+
+      if (error) {
+        throw new Error(`Failed to delete announcement: ${error.message}`);
+      }
+
+      return { success: true, message: "Announcement deleted successfully" };
+    } catch (error) {
+      console.error("Delete announcement error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
+      };
+    }
+  }
+
+  // Get all active announcements
+  static async getActiveAnnouncements() {
+    try {
+      const { data, error } = await supabase
+        .from("announcements")
+        .select("*")
+        .eq("is_active", true)
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        throw new Error(`Failed to fetch announcements: ${error.message}`);
+      }
+
+      return { success: true, data };
+    } catch (error) {
+      console.error("Fetch announcements error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
+      };
+    }
+  }
+
+  // Get all announcements (for admin)
+  static async getAllAnnouncements() {
+    try {
+      const { data, error } = await supabase
+        .from("announcements")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        throw new Error(`Failed to fetch announcements: ${error.message}`);
+      }
+
+      return { success: true, data };
+    } catch (error) {
+      console.error("Fetch announcements error:", error);
       return {
         success: false,
         error:
