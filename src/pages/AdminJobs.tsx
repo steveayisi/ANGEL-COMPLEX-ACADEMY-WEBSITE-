@@ -56,6 +56,7 @@ const AdminJobs = () => {
         return;
       }
       setAdminEmail(user.email || "");
+      setAdminName(user.user_metadata?.full_name || user.email?.split('@')[0] || "Admin");
     } catch (error) {
       navigate("/admin/login");
     }
@@ -214,9 +215,10 @@ const AdminJobs = () => {
             <div>
               <h1 className="text-3xl font-bold">Admin Dashboard</h1>
               <p className="text-blue-100">Manage Job Openings</p>
-              <p className="text-sm text-blue-200 mt-1">
-                Logged in as: {adminEmail}
-              </p>
+              <div className="mt-2 bg-blue-500 bg-opacity-30 rounded px-3 py-1 inline-block">
+                <p className="text-sm font-semibold text-white">{adminName}</p>
+                <p className="text-xs text-blue-100">{adminEmail}</p>
+              </div>
             </div>
             <button
               onClick={handleLogout}

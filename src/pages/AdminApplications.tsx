@@ -9,6 +9,7 @@ const AdminApplications = () => {
   const [applications, setApplications] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [adminEmail, setAdminEmail] = useState("");
+  const [adminName, setAdminName] = useState("");
   const [filterStatus, setFilterStatus] = useState<"all" | "pending" | "reviewed" | "rejected">("all");
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState<"success" | "error">("success");
@@ -28,6 +29,7 @@ const AdminApplications = () => {
         return;
       }
       setAdminEmail(user.email || "");
+      setAdminName(user.user_metadata?.full_name || user.email?.split('@')[0] || "Admin");
     } catch (error) {
       navigate("/admin/login");
     }
@@ -135,7 +137,10 @@ const AdminApplications = () => {
               <p className="text-gray-600">Admin Portal</p>
             </div>
             <div className="flex gap-2 items-center">
-              <span className="text-sm text-gray-600">{adminEmail}</span>
+              <div className="text-right mr-2">
+                <p className="text-sm font-semibold text-gray-800">{adminName}</p>
+                <p className="text-xs text-gray-500">{adminEmail}</p>
+              </div>
               <button
                 onClick={handleLogout}
                 className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition"
