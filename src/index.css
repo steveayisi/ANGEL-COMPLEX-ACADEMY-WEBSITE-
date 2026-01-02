@@ -18,7 +18,7 @@
 
 /* Updates page hero background */
 .updates-hero {
-  background-image: url("/src/assets/clubs.jpg");
+  background-image: url("./assets/clubs.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -27,7 +27,7 @@
 
 /* Careers page hero background */
 .careers-hero {
-  background-image: url("/src/assets/angelspic.jpg");
+  background-image: url("./assets/angelspic.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
