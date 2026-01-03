@@ -7,12 +7,14 @@ import {
   Star,
   Bell,
   Clock,
+  X,
 } from "lucide-react";
 const Updates = () => {
   const [featuredNews, setFeaturedNews] = useState<NewsUpdate | null>(null);
   const [newsUpdates, setNewsUpdates] = useState<NewsUpdate[]>([]);
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedNews, setSelectedNews] = useState<NewsUpdate | null>(null);
 
   useEffect(() => {
     fetchUpdates();
@@ -246,7 +248,10 @@ const Updates = () => {
                       <User className="h-4 w-4 mr-1" />
                       <span>{news.author}</span>
                     </div>
-                    <button className="text-blue-600 hover:text-blue-800 font-medium text-sm flex items-center">
+                    <button 
+                      onClick={() => setSelectedNews(news)}
+                      className="text-blue-600 hover:text-blue-800 font-medium text-sm flex items-center"
+                    >
                       Read More <ArrowRight className="h-4 w-4 ml-1" />
                     </button>
                   </div>
@@ -274,6 +279,70 @@ const Updates = () => {
             <button className="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
               Subscribe
             </button>
+
+      {/* News Detail Modal */}
+      {selectedNews && (
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center">
+              <h2 className="text-2xl font-bold text-gray-900">
+                {selectedNews.title}
+              </h2>
+              <button
+                onClick={() => setSelectedNews(null)}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                <X className="h-6 w-6" />
+              </button>
+            </div>
+            
+            <div className="p-6">
+              {selectedNews.image_url && (
+                <img
+                  src={selectedNews.image_url}
+                  alt={selectedNews.title}
+                  className="w-full h-64 object-cover rounded-lg mb-6"
+                />
+              )}
+              
+              <div className="flex items-center gap-4 mb-6">
+                <span
+                  className={`px-3 py-1 rounded-full text-sm font-medium ${getCategoryColor(
+                    selectedNews.category
+                  )}`}
+                >
+                  {selectedNews.category}
+                </span>
+                <div className="flex items-center text-gray-600">
+                  <Calendar className="h-4 w-4 mr-1" />
+                  <span className="text-sm">
+                    {new Date(selectedNews.date).toLocaleDateString()}
+                  </span>
+                </div>
+                <div className="flex items-center text-gray-600">
+                  <User className="h-4 w-4 mr-1" />
+                  <span className="text-sm">{selectedNews.author}</span>
+                </div>
+              </div>
+
+              <div className="prose max-w-none">
+                <p className="text-lg text-gray-700 leading-relaxed whitespace-pre-wrap">
+                  {selectedNews.content}
+                </p>
+              </div>
+            </div>
+
+            <div className="sticky bottom-0 bg-gray-50 px-6 py-4 border-t border-gray-200">
+              <button
+                onClick={() => setSelectedNews(null)}
+                className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
           </div>
         </div>
       </section>

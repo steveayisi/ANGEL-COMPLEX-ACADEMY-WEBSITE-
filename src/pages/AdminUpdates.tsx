@@ -31,6 +31,7 @@ export default function AdminUpdates() {
   const [adminName, setAdminName] = useState("");
   const [adminEmail, setAdminEmail] = useState("");
   const [uploadingImage, setUploadingImage] = useState(false);
+  const [imagePreview, setImagePreview] = useState<string>("");
   const [formData, setFormData] = useState<Partial<NewsUpdate>>({
     title: "",
     date: new Date().toISOString().split("T")[0],
@@ -78,6 +79,13 @@ export default function AdminUpdates() {
 
   const handleImageUpload = async (file: File) => {
     try {
+      // Show local preview immediately
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+
       setUploadingImage(true);
       const fileExt = file.name.split(".").pop();
       const fileName = `${Math.random()}.${fileExt}`;
@@ -87,7 +95,12 @@ export default function AdminUpdates() {
         .from("applications")
         .upload(filePath, file);
 
-      if (uploadError) throw uploadError;
+      if (uploadError) {
+        console.error("Upload error:", uploadError);
+        alert(`Failed to upload image: ${uploadError.message}`);
+        setUploadingImage(false);
+        return;
+      }
 
       const {
         data: { publicUrl },
@@ -95,9 +108,10 @@ export default function AdminUpdates() {
 
       setFormData({ ...formData, image_url: publicUrl });
       setUploadingImage(false);
+      alert("Image uploaded successfully!");
     } catch (error) {
       console.error("Error uploading image:", error);
-      alert("Failed to upload image");
+      alert("Failed to upload image: " + (error as Error).message);
       setUploadingImage(false);
     }
   };
@@ -135,6 +149,7 @@ export default function AdminUpdates() {
   const handleEdit = (update: NewsUpdate) => {
     setEditingUpdate(update);
     setFormData(update);
+    setImagePreview(update.image_url || "");
     setShowForm(true);
   };
 
@@ -162,6 +177,7 @@ export default function AdminUpdates() {
       is_featured: false,
       is_published: false,
     });
+    setImagePreview("");
   };
 
   return (
@@ -503,16 +519,23 @@ export default function AdminUpdates() {
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                 />
                 {uploadingImage && (
-                  <p className="text-sm text-gray-500 mt-2">
-                    Uploading image...
-                  </p>
+                  <div className="mt-2 flex items-center text-blue-600">
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600 mr-2"></div>
+                    <p className="text-sm">Uploading image...</p>
+                  </div>
                 )}
-                {formData.image_url && (
-                  <img
-                    src={formData.image_url}
-                    alt="Preview"
-                    className="mt-2 h-32 object-cover rounded"
-                  />
+                {(imagePreview || formData.image_url) && (
+                  <div className="mt-4">
+                    <p className="text-sm text-gray-600 mb-2">Image Preview:</p>
+                    <img
+                      src={imagePreview || formData.image_url}
+                      alt="Preview"
+                      className="h-48 w-auto object-cover rounded-lg border-2 border-gray-300"
+                    />
+                    {formData.image_url && (
+                      <p className="text-xs text-green-600 mt-2">✓ Image uploaded to server</p>
+                    )}
+                  </div>
                 )}
               </div>
 

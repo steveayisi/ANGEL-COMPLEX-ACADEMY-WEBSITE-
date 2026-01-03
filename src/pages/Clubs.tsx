@@ -14,9 +14,6 @@ import {
   Zap,
 } from "lucide-react";
 
-// Import background image (we'll reuse one of the existing images)
-import angelsp1c from "../assets/angelsp1c.jpg";
-
 const Clubs = () => {
   const clubs = [
     {
@@ -238,16 +235,7 @@ const Clubs = () => {
   return (
     <div className="bg-white">
       {/* Hero Section */}
-      <section
-        className="relative text-white py-20"
-        style={{
-          backgroundImage: `url(${angelsp1c})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          minHeight: "60vh",
-        }}
-      >
+      <section className="relative text-white py-20 clubs-hero">
         {/* Dark overlay for better text readability */}
         <div className="absolute inset-0 bg-black opacity-60"></div>
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

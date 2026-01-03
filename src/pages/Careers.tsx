@@ -16,6 +16,7 @@ import { DatabaseService, type JobOpening } from "../lib/database";
 import { supabase } from "../supabaseClient";
 
 // Import background image
+import angelspic from "../assets/angelspic.jpg";
 
 const Careers = () => {
   const [formData, setFormData] = useState({

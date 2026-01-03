@@ -33,3 +33,21 @@
   background-repeat: no-repeat;
   min-height: 60vh;
 }
+
+/* Clubs page hero background */
+.clubs-hero {
+  background-image: url("./assets/angelsp1c.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 60vh;
+}
+
+/* Contact page hero background */
+.contact-hero {
+  background-image: url("./assets/angels2.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 60vh;
+}

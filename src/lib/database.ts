@@ -81,6 +81,17 @@ export interface Announcement {
   updated_at?: string;
 }
 
+export interface ContactMessage {
+  id?: string;
+  name: string;
+  email: string;
+  phone?: string;
+  subject: string;
+  message: string;
+  status?: "unread" | "read" | "responded";
+  created_at?: string;
+}
+
 export class DatabaseService {
   // ===== ADMISSION FUNCTIONS =====
 
@@ -825,6 +836,80 @@ export class DatabaseService {
       return { success: true, data };
     } catch (error) {
       console.error("Fetch announcements error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
+      };
+    }
+  }
+
+  // ===== CONTACT MESSAGE FUNCTIONS =====
+
+  // Submit a contact message
+  static async submitContactMessage(data: Omit<ContactMessage, "id" | "status" | "created_at">) {
+    try {
+      const { data: result, error } = await supabase
+        .from("contact_messages")
+        .insert([{ ...data, status: "unread" }])
+        .select()
+        .single();
+
+      if (error) {
+        throw new Error(`Failed to submit contact message: ${error.message}`);
+      }
+
+      return { success: true, data: result };
+    } catch (error) {
+      console.error("Submit contact message error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
+      };
+    }
+  }
+
+  // Get all contact messages (for admin)
+  static async getAllContactMessages() {
+    try {
+      const { data, error } = await supabase
+        .from("contact_messages")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        throw new Error(`Failed to fetch contact messages: ${error.message}`);
+      }
+
+      return { success: true, data };
+    } catch (error) {
+      console.error("Fetch contact messages error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
+      };
+    }
+  }
+
+  // Update contact message status
+  static async updateContactMessageStatus(id: string, status: "unread" | "read" | "responded") {
+    try {
+      const { data, error } = await supabase
+        .from("contact_messages")
+        .update({ status })
+        .eq("id", id)
+        .select()
+        .single();
+
+      if (error) {
+        throw new Error(`Failed to update message status: ${error.message}`);
+      }
+
+      return { success: true, data };
+    } catch (error) {
+      console.error("Update message status error:", error);
       return {
         success: false,
         error:
