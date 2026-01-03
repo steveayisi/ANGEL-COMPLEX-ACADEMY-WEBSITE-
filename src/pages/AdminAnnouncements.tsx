@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { DatabaseService, Announcement } from "../lib/database";
+import { supabase } from "../supabaseClient";
 import { X, Edit2, Trash2 } from "lucide-react";
 
 const AdminAnnouncements = () => {
@@ -16,15 +17,17 @@ const AdminAnnouncements = () => {
   });
 
   useEffect(() => {
-    checkAuth();
-    fetchAnnouncements();
+    void checkAuth();
+    void fetchAnnouncements();
   }, []);
 
-  const checkAuth = () => {
-    // Add your auth check logic
-    const isAdmin = localStorage.getItem("isAdmin");
-    if (!isAdmin) {
-      navigate("/admin");
+  const checkAuth = async () => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      navigate("/admin/login");
     }
   };
 
