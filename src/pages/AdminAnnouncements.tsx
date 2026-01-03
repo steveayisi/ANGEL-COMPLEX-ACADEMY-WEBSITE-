@@ -116,12 +116,20 @@ const AdminAnnouncements = () => {
             <h1 className="text-3xl font-bold text-gray-900">
               Manage Announcements
             </h1>
-            <button
-              onClick={() => navigate("/admin/updates")}
-              className="text-gray-600 hover:text-gray-900"
-            >
-              ← Back
-            </button>
+            <div className="flex gap-3">
+              <button
+                onClick={() => navigate("/admin/staff")}
+                className="px-4 py-2 bg-gray-100 text-gray-800 rounded-lg hover:bg-gray-200"
+              >
+                Staff
+              </button>
+              <button
+                onClick={() => navigate("/admin/updates")}
+                className="text-gray-600 hover:text-gray-900"
+              >
+                ← Back
+              </button>
+            </div>
           </div>
           
           {/* Navigation */}

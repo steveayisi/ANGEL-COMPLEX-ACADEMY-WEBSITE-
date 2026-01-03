@@ -239,6 +239,12 @@ const AdminJobs = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex gap-4">
             <button
+              onClick={() => navigate("/admin/staff")}
+              className="px-4 py-3 text-gray-600 hover:text-gray-800 font-medium"
+            >
+              Staff
+            </button>
+            <button
               onClick={() => navigate("/admin/jobs")}
               className="px-4 py-3 text-blue-600 border-b-2 border-blue-600 font-medium"
             >

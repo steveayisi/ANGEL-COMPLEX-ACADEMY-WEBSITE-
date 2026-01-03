@@ -1,13 +1,13 @@
--- Create staff table
+-- Staff table schema
 CREATE TABLE IF NOT EXISTS staff (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   name TEXT NOT NULL,
   title TEXT NOT NULL,
-  education TEXT NOT NULL,
-  experience TEXT NOT NULL,
-  specialization TEXT NOT NULL,
+  education TEXT,
+  experience TEXT,
+  specialization TEXT,
   bio TEXT,
-  achievements TEXT[], -- Array of achievements
+  achievements TEXT[] DEFAULT '{}',
   email TEXT,
   phone TEXT,
   image_url TEXT,
@@ -19,29 +19,7 @@ CREATE TABLE IF NOT EXISTS staff (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- Enable Row Level Security
-ALTER TABLE staff ENABLE ROW LEVEL SECURITY;
-
--- Policy: Allow public to read active staff
-CREATE POLICY "Public can view active staff"
-  ON staff
-  FOR SELECT
-  USING (is_active = true);
-
--- Policy: Allow authenticated users (admins) to do everything
-CREATE POLICY "Authenticated users can manage all staff"
-  ON staff
-  FOR ALL
-  USING (auth.role() = 'authenticated')
-  WITH CHECK (auth.role() = 'authenticated');
-
--- Create indexes for faster queries
-CREATE INDEX idx_staff_active ON staff(is_active);
-CREATE INDEX idx_staff_key_staff ON staff(is_key_staff);
-CREATE INDEX idx_staff_proprietress ON staff(is_proprietress);
-CREATE INDEX idx_staff_display_order ON staff(display_order);
-
--- Create updated_at trigger
+-- Trigger to update updated_at
 CREATE OR REPLACE FUNCTION update_staff_updated_at()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -50,7 +28,29 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER update_staff_updated_at
-  BEFORE UPDATE ON staff
-  FOR EACH ROW
-  EXECUTE FUNCTION update_staff_updated_at();
+DROP TRIGGER IF EXISTS staff_updated_at ON staff;
+CREATE TRIGGER staff_updated_at
+BEFORE UPDATE ON staff
+FOR EACH ROW
+EXECUTE FUNCTION update_staff_updated_at();
+
+-- Enable Row Level Security
+ALTER TABLE staff ENABLE ROW LEVEL SECURITY;
+
+-- Public read of active staff
+CREATE POLICY "Public can read active staff" ON staff
+  FOR SELECT
+  TO anon
+  USING (is_active = true);
+
+-- Authenticated admins full access
+CREATE POLICY "Admins manage staff" ON staff
+  FOR ALL
+  TO authenticated
+  USING (true)
+  WITH CHECK (true);
+
+-- Helpful indexes
+CREATE INDEX IF NOT EXISTS idx_staff_display_order ON staff(display_order);
+CREATE INDEX IF NOT EXISTS idx_staff_key ON staff(is_key_staff);
+CREATE INDEX IF NOT EXISTS idx_staff_proprietress ON staff(is_proprietress);

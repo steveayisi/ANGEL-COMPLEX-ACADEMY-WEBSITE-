@@ -391,7 +391,7 @@ const Contact = () => {
                   Get instant responses to your questions
                 </p>
                 <a
-                  href="https://wa.me/233241234567?text=Hello%20Angels%20Complex%20Academy,%20I%20would%20like%20to%20inquire%20about..."
+                  href="https://wa.me/233244690571?text=Hello%20Angels%20Complex%20Academy,%20I%20would%20like%20to%20inquire%20about..."
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center w-full bg-green-600 text-white px-4 py-3 rounded-lg hover:bg-green-700 transition-colors font-semibold text-center"

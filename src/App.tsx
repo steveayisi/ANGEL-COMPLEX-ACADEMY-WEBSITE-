@@ -28,11 +28,8 @@ function App() {
         <Route path="/admin/admissions" element={<AdminAdmissions />} />
         <Route path="/admin/updates" element={<AdminUpdates />} />
         <Route path="/admin/announcements" element={<AdminAnnouncements />} />
+        <Route path="/admin/contact-messages" element={<AdminContactMessages />} />
         <Route path="/admin/staff" element={<AdminStaff />} />
-        <Route
-          path="/admin/contact-messages"
-          element={<AdminContactMessages />}
-        />
 
         {/* Public Routes (with Layout) */}
         <Route

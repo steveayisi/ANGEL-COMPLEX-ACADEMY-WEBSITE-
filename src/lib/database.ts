@@ -81,6 +81,26 @@ export interface Announcement {
   updated_at?: string;
 }
 
+export interface Staff {
+  id?: string;
+  name: string;
+  title: string;
+  education?: string;
+  experience?: string;
+  specialization?: string;
+  bio?: string;
+  achievements?: string[];
+  email?: string;
+  phone?: string;
+  image_url?: string;
+  is_key_staff?: boolean;
+  is_proprietress?: boolean;
+  display_order?: number;
+  is_active?: boolean;
+  created_at?: string;
+  updated_at?: string;
+}
+
 export interface ContactMessage {
   id?: string;
   name: string;
@@ -859,6 +879,194 @@ export class DatabaseService {
       return { success: true, data };
     } catch (error) {
       console.error("Fetch announcements error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
+      };
+    }
+  }
+
+  // ===== STAFF FUNCTIONS =====
+
+  static async createStaff(staff: Omit<Staff, "id" | "created_at" | "updated_at">) {
+    try {
+      const { data, error } = await supabase
+        .from("staff")
+        .insert([{ ...staff }])
+        .select()
+        .single();
+
+      if (error) {
+        throw new Error(`Failed to create staff: ${error.message}`);
+      }
+
+      return { success: true, data };
+    } catch (error) {
+      console.error("Create staff error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
+      };
+    }
+  }
+
+  static async getAllStaff() {
+    try {
+      const { data, error } = await supabase
+        .from("staff")
+        .select("*")
+        .order("display_order", { ascending: true })
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        throw new Error(`Failed to fetch staff: ${error.message}`);
+      }
+
+      return { success: true, data };
+    } catch (error) {
+      console.error("Fetch staff error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
+      };
+    }
+  }
+
+  static async getActiveStaff() {
+    try {
+      const { data, error } = await supabase
+        .from("staff")
+        .select("*")
+        .eq("is_active", true)
+        .order("display_order", { ascending: true });
+
+      if (error) {
+        throw new Error(`Failed to fetch staff: ${error.message}`);
+      }
+
+      return { success: true, data };
+    } catch (error) {
+      console.error("Fetch active staff error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
+      };
+    }
+  }
+
+  static async getProprietress() {
+    try {
+      const { data, error } = await supabase
+        .from("staff")
+        .select("*")
+        .eq("is_proprietress", true)
+        .eq("is_active", true)
+        .order("display_order", { ascending: true })
+        .limit(1)
+        .single();
+
+      if (error && error.code !== "PGRST116") {
+        throw new Error(`Failed to fetch proprietress: ${error.message}`);
+      }
+
+      return { success: true, data };
+    } catch (error) {
+      console.error("Fetch proprietress error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
+      };
+    }
+  }
+
+  static async getKeyStaff() {
+    try {
+      const { data, error } = await supabase
+        .from("staff")
+        .select("*")
+        .eq("is_key_staff", true)
+        .eq("is_active", true)
+        .order("display_order", { ascending: true });
+
+      if (error) {
+        throw new Error(`Failed to fetch key staff: ${error.message}`);
+      }
+
+      return { success: true, data };
+    } catch (error) {
+      console.error("Fetch key staff error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
+      };
+    }
+  }
+
+  static async updateStaff(id: string, staff: Partial<Staff>) {
+    try {
+      const { data, error } = await supabase
+        .from("staff")
+        .update(staff)
+        .eq("id", id)
+        .select()
+        .single();
+
+      if (error) {
+        throw new Error(`Failed to update staff: ${error.message}`);
+      }
+
+      return { success: true, data };
+    } catch (error) {
+      console.error("Update staff error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
+      };
+    }
+  }
+
+  static async deleteStaff(id: string) {
+    try {
+      const { error } = await supabase.from("staff").delete().eq("id", id);
+
+      if (error) {
+        throw new Error(`Failed to delete staff: ${error.message}`);
+      }
+
+      return { success: true, message: "Staff deleted successfully" };
+    } catch (error) {
+      console.error("Delete staff error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
+      };
+    }
+  }
+
+  static async toggleStaffStatus(id: string, isActive: boolean) {
+    try {
+      const { data, error } = await supabase
+        .from("staff")
+        .update({ is_active: isActive })
+        .eq("id", id)
+        .select()
+        .single();
+
+      if (error) {
+        throw new Error(`Failed to update staff status: ${error.message}`);
+      }
+
+      return { success: true, data };
+    } catch (error) {
+      console.error("Toggle staff status error:", error);
       return {
         success: false,
         error:
