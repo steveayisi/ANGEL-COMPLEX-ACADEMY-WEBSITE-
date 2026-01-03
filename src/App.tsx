@@ -15,6 +15,7 @@ import AdminAdmissions from "./pages/AdminAdmissions";
 import AdminUpdates from "./pages/AdminUpdates";
 import AdminAnnouncements from "./pages/AdminAnnouncements";
 import AdminContactMessages from "./pages/AdminContactMessages";
+import AdminStaff from "./pages/AdminStaff";
 
 function App() {
   return (
@@ -27,7 +28,11 @@ function App() {
         <Route path="/admin/admissions" element={<AdminAdmissions />} />
         <Route path="/admin/updates" element={<AdminUpdates />} />
         <Route path="/admin/announcements" element={<AdminAnnouncements />} />
-        <Route path="/admin/contact-messages" element={<AdminContactMessages />} />
+        <Route path="/admin/staff" element={<AdminStaff />} />
+        <Route
+          path="/admin/contact-messages"
+          element={<AdminContactMessages />}
+        />
 
         {/* Public Routes (with Layout) */}
         <Route

@@ -123,6 +123,49 @@ const AdminAnnouncements = () => {
               ← Back
             </button>
           </div>
+          
+          {/* Navigation */}
+          <div className="mt-4 flex flex-col sm:flex-row gap-2 sm:gap-4 overflow-x-auto">
+            <button
+              onClick={() => navigate("/admin/updates")}
+              className="px-4 py-2 text-gray-700 hover:text-blue-600 whitespace-nowrap"
+            >
+              Updates
+            </button>
+            <button className="px-4 py-2 text-blue-600 border-b-2 border-blue-600 font-medium whitespace-nowrap">
+              Announcements
+            </button>
+            <button
+              onClick={() => navigate("/admin/admissions")}
+              className="px-4 py-2 text-gray-700 hover:text-blue-600 whitespace-nowrap"
+            >
+              Admissions
+            </button>
+            <button
+              onClick={() => navigate("/admin/applications")}
+              className="px-4 py-2 text-gray-700 hover:text-blue-600 whitespace-nowrap"
+            >
+              Job Applications
+            </button>
+            <button
+              onClick={() => navigate("/admin/jobs")}
+              className="px-4 py-2 text-gray-700 hover:text-blue-600 whitespace-nowrap"
+            >
+              Job Openings
+            </button>
+            <button
+              onClick={() => navigate("/admin/contact-messages")}
+              className="px-4 py-2 text-gray-700 hover:text-blue-600 whitespace-nowrap"
+            >
+              Contact Messages
+            </button>
+            <button
+              onClick={() => navigate("/admin/staff")}
+              className="px-4 py-2 text-gray-700 hover:text-blue-600 whitespace-nowrap"
+            >
+              Staff Management
+            </button>
+          </div>
         </div>
       </header>
 

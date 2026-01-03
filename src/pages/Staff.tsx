@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   GraduationCap,
   Award,
@@ -8,41 +8,48 @@ import {
   Mail,
   Phone,
 } from "lucide-react";
+import { DatabaseService, Staff as StaffType } from "../lib/database";
 
 // Import background image
 import angelspic from "../assets/angelspic.jpg";
 
 const Staff = () => {
-  const headTeacher = {
-    name: "Mrs. Regina Opoku Ansah",
-    title: "Proprietress",
-    education: "M.Ed. Educational Leadership, University of Ghana",
-    experience: "20 years in education",
-    specialization: "Educational Leadership & Curriculum Development",
-    bio: "Mrs. Regina Opoku Ansah has been leading Angels Complex Academy for over 18 years. Her passion for education and dedication to student success has made her a respected leader in the educational community. She holds a Master's degree in Educational Leadership and has been instrumental in developing innovative teaching methods that cater to diverse learning needs.",
-    achievements: [
-      "Outstanding Educator Award 2020",
-      "Best School Administrator 2019",
-      "Educational Innovation Recognition 2018",
-    ],
+  const [proprietress, setProprietress] = useState<StaffType | null>(null);
+  const [keyStaff, setKeyStaff] = useState<StaffType[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchStaffData();
+  }, []);
+
+  const fetchStaffData = async () => {
+    setLoading(true);
+    
+    // Fetch proprietress
+    const proprietressResult = await DatabaseService.getProprietress();
+    if (proprietressResult.success && proprietressResult.data) {
+      setProprietress(proprietressResult.data);
+    }
+
+    // Fetch key staff
+    const keyStaffResult = await DatabaseService.getKeyStaff();
+    if (keyStaffResult.success && keyStaffResult.data) {
+      setKeyStaff(keyStaffResult.data);
+    }
+
+    setLoading(false);
   };
 
-  const keyStaff = [
-    {
-      name: "Mr. Prince Ansong",
-      title: "Head Teacher",
-      education: "B.Ed. Technical Education",
-      experience: "15 years",
-      specialization: "Technical & Vocational Education",
-    },
-    {
-      name: "Mr. Maxwel Ansah",
-      title: "School Bursar",
-      education: "Diploma in Accounting",
-      experience: "14 years",
-      specialization: "Financial Management",
-    },
-  ];
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading staff information...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-white">
@@ -92,16 +99,24 @@ const Staff = () => {
                   <Users className="h-24 w-24 text-gray-400" />
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">
-                  {headTeacher.name}
+                  {proprietress?.name}
                 </h3>
                 <p className="text-lg text-blue-600 font-semibold mb-2">
-                  {headTeacher.title}
+                  {proprietress?.title}
                 </p>
                 <div className="flex justify-center space-x-4 text-sm text-gray-600">
-                  <div className="flex items-center">
-                    <Mail className="h-4 w-4 mr-1" />
-                    <span>head@angelscomplexacademy.edu.gh</span>
-                  </div>
+                  {proprietress?.email && (
+                    <div className="flex items-center">
+                      <Mail className="h-4 w-4 mr-1" />
+                      <span>{proprietress.email}</span>
+                    </div>
+                  )}
+                  {proprietress?.phone && (
+                    <div className="flex items-center">
+                      <Phone className="h-4 w-4 mr-1" />
+                      <span>{proprietress.phone}</span>
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -111,7 +126,7 @@ const Staff = () => {
                     <GraduationCap className="h-5 w-5 mr-2 text-blue-600" />
                     Education
                   </h4>
-                  <p className="text-gray-700">{headTeacher.education}</p>
+                  <p className="text-gray-700">{proprietress?.education}</p>
                 </div>
 
                 <div className="mb-6">
@@ -119,26 +134,30 @@ const Staff = () => {
                     <Book className="h-5 w-5 mr-2 text-green-600" />
                     Experience & Specialization
                   </h4>
-                  <p className="text-gray-700 mb-2">{headTeacher.experience}</p>
-                  <p className="text-gray-700">{headTeacher.specialization}</p>
+                  <p className="text-gray-700 mb-2">{proprietress?.experience}</p>
+                  <p className="text-gray-700">{proprietress?.specialization}</p>
                 </div>
 
-                <div className="mb-6">
-                  <h4 className="text-lg font-semibold mb-2 flex items-center">
-                    <Award className="h-5 w-5 mr-2 text-yellow-600" />
-                    Achievements
-                  </h4>
-                  <ul className="list-disc list-inside text-gray-700 space-y-1">
-                    {headTeacher.achievements.map((achievement, index) => (
-                      <li key={index}>{achievement}</li>
-                    ))}
-                  </ul>
-                </div>
+                {proprietress?.achievements && proprietress.achievements.length > 0 && (
+                  <div className="mb-6">
+                    <h4 className="text-lg font-semibold mb-2 flex items-center">
+                      <Award className="h-5 w-5 mr-2 text-yellow-600" />
+                      Achievements
+                    </h4>
+                    <ul className="list-disc list-inside text-gray-700 space-y-1">
+                      {proprietress.achievements.map((achievement, index) => (
+                        <li key={index}>{achievement}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
 
-                <div>
-                  <h4 className="text-lg font-semibold mb-2">About</h4>
-                  <p className="text-gray-700">{headTeacher.bio}</p>
-                </div>
+                {proprietress?.bio && (
+                  <div>
+                    <h4 className="text-lg font-semibold mb-2">About</h4>
+                    <p className="text-gray-700">{proprietress.bio}</p>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -158,21 +177,45 @@ const Staff = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            {keyStaff.map((staff, index) => (
+            {keyStaff.map((staff) => (
               <div
-                key={index}
+                key={staff.id}
                 className="bg-white rounded-lg shadow-lg p-8 hover:shadow-xl transition-shadow"
               >
                 <div className="text-center mb-6">
-                  <div className="w-32 h-32 bg-gradient-to-br from-blue-100 to-purple-100 rounded-full mx-auto mb-4 flex items-center justify-center">
-                    <Users className="h-16 w-16 text-blue-600" />
-                  </div>
+                  {staff.image_url ? (
+                    <img
+                      src={staff.image_url}
+                      alt={staff.name}
+                      className="w-32 h-32 rounded-full mx-auto mb-4 object-cover"
+                    />
+                  ) : (
+                    <div className="w-32 h-32 bg-gradient-to-br from-blue-100 to-purple-100 rounded-full mx-auto mb-4 flex items-center justify-center">
+                      <Users className="h-16 w-16 text-blue-600" />
+                    </div>
+                  )}
                   <h3 className="text-2xl font-bold text-gray-900 mb-2">
                     {staff.name}
                   </h3>
                   <p className="text-lg text-blue-600 font-semibold">
                     {staff.title}
                   </p>
+                  {(staff.email || staff.phone) && (
+                    <div className="flex justify-center space-x-4 text-sm text-gray-600 mt-2">
+                      {staff.email && (
+                        <div className="flex items-center">
+                          <Mail className="h-4 w-4 mr-1" />
+                          <span>{staff.email}</span>
+                        </div>
+                      )}
+                      {staff.phone && (
+                        <div className="flex items-center">
+                          <Phone className="h-4 w-4 mr-1" />
+                          <span>{staff.phone}</span>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
 
                 <div className="space-y-4">
@@ -199,6 +242,32 @@ const Staff = () => {
                     </h4>
                     <p className="text-gray-700">{staff.specialization}</p>
                   </div>
+
+                  {staff.bio && (
+                    <div>
+                      <h4 className="font-semibold text-gray-900 flex items-center mb-2">
+                        <Book className="h-5 w-5 mr-2 text-purple-600" />
+                        About
+                      </h4>
+                      <p className="text-gray-700">{staff.bio}</p>
+                    </div>
+                  )}
+
+                  {staff.achievements && staff.achievements.length > 0 && (
+                    <div>
+                      <h4 className="font-semibold text-gray-900 mb-2">
+                        Key Achievements
+                      </h4>
+                      <ul className="list-disc list-inside text-gray-700 space-y-1">
+                        {staff.achievements.map((achievement, idx) => (
+                          <li key={idx}>{achievement}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
                 </div>
               </div>
             ))}

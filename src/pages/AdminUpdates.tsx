@@ -253,6 +253,12 @@ export default function AdminUpdates() {
             >
               Contact Messages
             </button>
+            <button
+              onClick={() => navigate("/admin/staff")}
+              className="py-4 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+            >
+              Staff Management
+            </button>
           </div>
         </div>
       </nav>
@@ -539,7 +545,9 @@ export default function AdminUpdates() {
                       className="h-48 w-auto object-cover rounded-lg border-2 border-gray-300"
                     />
                     {formData.image_url && (
-                      <p className="text-xs text-green-600 mt-2">✓ Image uploaded to server</p>
+                      <p className="text-xs text-green-600 mt-2">
+                        ✓ Image uploaded to server
+                      </p>
                     )}
                   </div>
                 )}

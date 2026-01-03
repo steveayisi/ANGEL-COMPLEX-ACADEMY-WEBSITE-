@@ -268,6 +268,12 @@ const AdminJobs = () => {
             >
               Contact Messages
             </button>
+            <button
+              onClick={() => navigate("/admin/staff")}
+              className="px-4 py-3 text-gray-600 hover:text-gray-800 font-medium"
+            >
+              Staff Management
+            </button>
           </div>
         </div>
       </div>

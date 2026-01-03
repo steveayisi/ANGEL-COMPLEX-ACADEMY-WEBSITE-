@@ -1,14 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { DatabaseService, NewsUpdate, Announcement } from "../lib/database";
-import {
-  Calendar,
-  User,
-  ArrowRight,
-  Star,
-  Bell,
-  Clock,
-  X,
-} from "lucide-react";
+import { Calendar, User, ArrowRight, Star, Bell, Clock, X } from "lucide-react";
 const Updates = () => {
   const [featuredNews, setFeaturedNews] = useState<NewsUpdate | null>(null);
   const [newsUpdates, setNewsUpdates] = useState<NewsUpdate[]>([]);
@@ -22,7 +14,7 @@ const Updates = () => {
 
   const fetchUpdates = async () => {
     setLoading(true);
-    
+
     // Fetch featured news
     const featuredResult = await DatabaseService.getFeaturedUpdate();
     if (featuredResult.success && featuredResult.data) {
@@ -43,8 +35,6 @@ const Updates = () => {
 
     setLoading(false);
   };
-
-
 
   const getCategoryColor = (category: string) => {
     switch (category.toLowerCase()) {
@@ -114,7 +104,9 @@ const Updates = () => {
               {announcements.map((announcement) => (
                 <div
                   key={announcement.id}
-                  className={`p-6 rounded-lg ${getAnnouncementTypeColor(announcement.type)}`}
+                  className={`p-6 rounded-lg ${getAnnouncementTypeColor(
+                    announcement.type
+                  )}`}
                 >
                   <div className="flex items-center mb-2">
                     <Bell className="h-5 w-5 mr-2 text-gray-600" />
@@ -145,55 +137,58 @@ const Updates = () => {
         </section>
       ) : featuredNews ? (
         <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 text-center mb-4">
-              Featured News
-            </h2>
-          </div>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 text-center mb-4">
+                Featured News
+              </h2>
+            </div>
 
-          <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg overflow-hidden shadow-lg">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              <div className="p-8">
-                <div className="flex items-center mb-4">
-                  <span
-                    className={`px-3 py-1 rounded-full text-sm font-medium ${getCategoryColor(
-                      featuredNews.category
-                    )}`}
-                  >
-                    {featuredNews.category}
-                  </span>
-                </div>
-                <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
-                  {featuredNews.title}
-                </h3>
-                <div className="flex items-center text-gray-600 mb-4 space-x-4">
-                  <div className="flex items-center">
-                    <Calendar className="h-4 w-4 mr-1" />
-                    <span className="text-sm">
-                      {new Date(featuredNews.date).toLocaleDateString()}
+            <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg overflow-hidden shadow-lg">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div className="p-8">
+                  <div className="flex items-center mb-4">
+                    <span
+                      className={`px-3 py-1 rounded-full text-sm font-medium ${getCategoryColor(
+                        featuredNews.category
+                      )}`}
+                    >
+                      {featuredNews.category}
                     </span>
                   </div>
-                  <div className="flex items-center">
-                    <User className="h-4 w-4 mr-1" />
-                    <span className="text-sm">{featuredNews.author}</span>
+                  <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+                    {featuredNews.title}
+                  </h3>
+                  <div className="flex items-center text-gray-600 mb-4 space-x-4">
+                    <div className="flex items-center">
+                      <Calendar className="h-4 w-4 mr-1" />
+                      <span className="text-sm">
+                        {new Date(featuredNews.date).toLocaleDateString()}
+                      </span>
+                    </div>
+                    <div className="flex items-center">
+                      <User className="h-4 w-4 mr-1" />
+                      <span className="text-sm">{featuredNews.author}</span>
+                    </div>
                   </div>
+                  <p className="text-gray-600 mb-6 text-lg leading-relaxed">
+                    {featuredNews.excerpt}
+                  </p>
                 </div>
-                <p className="text-gray-600 mb-6 text-lg leading-relaxed">
-                  {featuredNews.excerpt}
-                </p>
-              </div>
-              <div className="lg:p-8">
-                <img
-                  src={featuredNews.image_url || "https://images.pexels.com/photos/5212338/pexels-photo-5212338.jpeg?auto=compress&cs=tinysrgb&w=400"}
-                  alt={featuredNews.title}
-                  className="w-full h-64 lg:h-full object-cover rounded-lg"
-                />
+                <div className="lg:p-8">
+                  <img
+                    src={
+                      featuredNews.image_url ||
+                      "https://images.pexels.com/photos/5212338/pexels-photo-5212338.jpeg?auto=compress&cs=tinysrgb&w=400"
+                    }
+                    alt={featuredNews.title}
+                    className="w-full h-64 lg:h-full object-cover rounded-lg"
+                  />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
       ) : null}
 
       {/* Recent News */}
@@ -212,52 +207,58 @@ const Updates = () => {
               </div>
             ) : newsUpdates.length === 0 ? (
               <div className="col-span-full text-center py-12">
-                <p className="text-gray-500 text-lg">No updates available at this time.</p>
+                <p className="text-gray-500 text-lg">
+                  No updates available at this time.
+                </p>
               </div>
             ) : (
               newsUpdates.map((news, index) => (
-              <div
-                key={index}
-                className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
-              >
-                <img
-                  src={news.image_url || "https://images.pexels.com/photos/5212338/pexels-photo-5212338.jpeg?auto=compress&cs=tinysrgb&w=400"}
-                  alt={news.title}
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-6">
-                  <div className="flex items-center justify-between mb-3">
-                    <span
-                      className={`px-3 py-1 rounded-full text-sm font-medium ${getCategoryColor(
-                        news.category
-                      )}`}
-                    >
-                      {news.category}
-                    </span>
-                    <div className="flex items-center text-gray-500 text-sm">
-                      <Calendar className="h-4 w-4 mr-1" />
-                      <span>{new Date(news.date).toLocaleDateString()}</span>
+                <div
+                  key={index}
+                  className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+                >
+                  <img
+                    src={
+                      news.image_url ||
+                      "https://images.pexels.com/photos/5212338/pexels-photo-5212338.jpeg?auto=compress&cs=tinysrgb&w=400"
+                    }
+                    alt={news.title}
+                    className="w-full h-48 object-cover"
+                  />
+                  <div className="p-6">
+                    <div className="flex items-center justify-between mb-3">
+                      <span
+                        className={`px-3 py-1 rounded-full text-sm font-medium ${getCategoryColor(
+                          news.category
+                        )}`}
+                      >
+                        {news.category}
+                      </span>
+                      <div className="flex items-center text-gray-500 text-sm">
+                        <Calendar className="h-4 w-4 mr-1" />
+                        <span>{new Date(news.date).toLocaleDateString()}</span>
+                      </div>
                     </div>
-                  </div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                    {news.title}
-                  </h3>
-                  <p className="text-gray-600 mb-4">{news.excerpt}</p>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center text-gray-500 text-sm">
-                      <User className="h-4 w-4 mr-1" />
-                      <span>{news.author}</span>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                      {news.title}
+                    </h3>
+                    <p className="text-gray-600 mb-4">{news.excerpt}</p>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center text-gray-500 text-sm">
+                        <User className="h-4 w-4 mr-1" />
+                        <span>{news.author}</span>
+                      </div>
+                      <button
+                        onClick={() => setSelectedNews(news)}
+                        className="text-blue-600 hover:text-blue-800 font-medium text-sm flex items-center"
+                      >
+                        Read More <ArrowRight className="h-4 w-4 ml-1" />
+                      </button>
                     </div>
-                    <button 
-                      onClick={() => setSelectedNews(news)}
-                      className="text-blue-600 hover:text-blue-800 font-medium text-sm flex items-center"
-                    >
-                      Read More <ArrowRight className="h-4 w-4 ml-1" />
-                    </button>
                   </div>
                 </div>
-              </div>
-            )))}
+              ))
+            )}
           </div>
         </div>
       </section>
@@ -280,69 +281,69 @@ const Updates = () => {
               Subscribe
             </button>
 
-      {/* News Detail Modal */}
-      {selectedNews && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center">
-              <h2 className="text-2xl font-bold text-gray-900">
-                {selectedNews.title}
-              </h2>
-              <button
-                onClick={() => setSelectedNews(null)}
-                className="text-gray-500 hover:text-gray-700"
-              >
-                <X className="h-6 w-6" />
-              </button>
-            </div>
-            
-            <div className="p-6">
-              {selectedNews.image_url && (
-                <img
-                  src={selectedNews.image_url}
-                  alt={selectedNews.title}
-                  className="w-full h-64 object-cover rounded-lg mb-6"
-                />
-              )}
-              
-              <div className="flex items-center gap-4 mb-6">
-                <span
-                  className={`px-3 py-1 rounded-full text-sm font-medium ${getCategoryColor(
-                    selectedNews.category
-                  )}`}
-                >
-                  {selectedNews.category}
-                </span>
-                <div className="flex items-center text-gray-600">
-                  <Calendar className="h-4 w-4 mr-1" />
-                  <span className="text-sm">
-                    {new Date(selectedNews.date).toLocaleDateString()}
-                  </span>
-                </div>
-                <div className="flex items-center text-gray-600">
-                  <User className="h-4 w-4 mr-1" />
-                  <span className="text-sm">{selectedNews.author}</span>
+            {/* News Detail Modal */}
+            {selectedNews && (
+              <div className="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center p-4">
+                <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+                  <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center">
+                    <h2 className="text-2xl font-bold text-gray-900">
+                      {selectedNews.title}
+                    </h2>
+                    <button
+                      onClick={() => setSelectedNews(null)}
+                      className="text-gray-500 hover:text-gray-700"
+                    >
+                      <X className="h-6 w-6" />
+                    </button>
+                  </div>
+
+                  <div className="p-6">
+                    {selectedNews.image_url && (
+                      <img
+                        src={selectedNews.image_url}
+                        alt={selectedNews.title}
+                        className="w-full h-64 object-cover rounded-lg mb-6"
+                      />
+                    )}
+
+                    <div className="flex items-center gap-4 mb-6">
+                      <span
+                        className={`px-3 py-1 rounded-full text-sm font-medium ${getCategoryColor(
+                          selectedNews.category
+                        )}`}
+                      >
+                        {selectedNews.category}
+                      </span>
+                      <div className="flex items-center text-gray-600">
+                        <Calendar className="h-4 w-4 mr-1" />
+                        <span className="text-sm">
+                          {new Date(selectedNews.date).toLocaleDateString()}
+                        </span>
+                      </div>
+                      <div className="flex items-center text-gray-600">
+                        <User className="h-4 w-4 mr-1" />
+                        <span className="text-sm">{selectedNews.author}</span>
+                      </div>
+                    </div>
+
+                    <div className="prose max-w-none">
+                      <p className="text-lg text-gray-700 leading-relaxed whitespace-pre-wrap">
+                        {selectedNews.content}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="sticky bottom-0 bg-gray-50 px-6 py-4 border-t border-gray-200">
+                    <button
+                      onClick={() => setSelectedNews(null)}
+                      className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+                    >
+                      Close
+                    </button>
+                  </div>
                 </div>
               </div>
-
-              <div className="prose max-w-none">
-                <p className="text-lg text-gray-700 leading-relaxed whitespace-pre-wrap">
-                  {selectedNews.content}
-                </p>
-              </div>
-            </div>
-
-            <div className="sticky bottom-0 bg-gray-50 px-6 py-4 border-t border-gray-200">
-              <button
-                onClick={() => setSelectedNews(null)}
-                className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+            )}
           </div>
         </div>
       </section>

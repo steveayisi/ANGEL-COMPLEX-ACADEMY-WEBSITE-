@@ -92,6 +92,26 @@ export interface ContactMessage {
   created_at?: string;
 }
 
+export interface Staff {
+  id?: string;
+  name: string;
+  title: string;
+  education: string;
+  experience: string;
+  specialization: string;
+  bio?: string;
+  achievements?: string[];
+  email?: string;
+  phone?: string;
+  image_url?: string;
+  is_key_staff: boolean;
+  is_proprietress: boolean;
+  display_order: number;
+  is_active: boolean;
+  created_at?: string;
+  updated_at?: string;
+}
+
 export class DatabaseService {
   // ===== ADMISSION FUNCTIONS =====
 
@@ -750,7 +770,10 @@ export class DatabaseService {
   }
 
   // Update announcement
-  static async updateAnnouncement(id: string, announcementData: Partial<Announcement>) {
+  static async updateAnnouncement(
+    id: string,
+    announcementData: Partial<Announcement>
+  ) {
     try {
       const { data, error } = await supabase
         .from("announcements")
@@ -847,7 +870,9 @@ export class DatabaseService {
   // ===== CONTACT MESSAGE FUNCTIONS =====
 
   // Submit a contact message
-  static async submitContactMessage(data: Omit<ContactMessage, "id" | "status" | "created_at">) {
+  static async submitContactMessage(
+    data: Omit<ContactMessage, "id" | "status" | "created_at">
+  ) {
     try {
       const { data: result, error } = await supabase
         .from("contact_messages")
@@ -894,7 +919,10 @@ export class DatabaseService {
   }
 
   // Update contact message status
-  static async updateContactMessageStatus(id: string, status: "unread" | "read" | "responded") {
+  static async updateContactMessageStatus(
+    id: string,
+    status: "unread" | "read" | "responded"
+  ) {
     try {
       const { data, error } = await supabase
         .from("contact_messages")
@@ -910,6 +938,202 @@ export class DatabaseService {
       return { success: true, data };
     } catch (error) {
       console.error("Update message status error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
+      };
+    }
+  }
+
+  // Staff Management Methods
+
+  // Create new staff member
+  static async createStaff(
+    staff: Omit<Staff, "id" | "created_at" | "updated_at">
+  ) {
+    try {
+      const { data, error } = await supabase
+        .from("staff")
+        .insert([staff])
+        .select()
+        .single();
+
+      if (error) {
+        throw new Error(`Failed to create staff member: ${error.message}`);
+      }
+
+      return { success: true, data };
+    } catch (error) {
+      console.error("Create staff error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
+      };
+    }
+  }
+
+  // Get all staff members
+  static async getAllStaff() {
+    try {
+      const { data, error } = await supabase
+        .from("staff")
+        .select("*")
+        .order("display_order", { ascending: true });
+
+      if (error) {
+        throw new Error(`Failed to fetch staff: ${error.message}`);
+      }
+
+      return { success: true, data };
+    } catch (error) {
+      console.error("Fetch staff error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
+      };
+    }
+  }
+
+  // Get active staff members only
+  static async getActiveStaff() {
+    try {
+      const { data, error } = await supabase
+        .from("staff")
+        .select("*")
+        .eq("is_active", true)
+        .order("display_order", { ascending: true });
+
+      if (error) {
+        throw new Error(`Failed to fetch active staff: ${error.message}`);
+      }
+
+      return { success: true, data };
+    } catch (error) {
+      console.error("Fetch active staff error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
+      };
+    }
+  }
+
+  // Get proprietress
+  static async getProprietress() {
+    try {
+      const { data, error } = await supabase
+        .from("staff")
+        .select("*")
+        .eq("is_proprietress", true)
+        .eq("is_active", true)
+        .single();
+
+      if (error && error.code !== "PGRST116") {
+        // PGRST116 is "no rows returned"
+        throw new Error(`Failed to fetch proprietress: ${error.message}`);
+      }
+
+      return { success: true, data: data || null };
+    } catch (error) {
+      console.error("Fetch proprietress error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
+      };
+    }
+  }
+
+  // Get key staff members
+  static async getKeyStaff() {
+    try {
+      const { data, error } = await supabase
+        .from("staff")
+        .select("*")
+        .eq("is_key_staff", true)
+        .eq("is_active", true)
+        .order("display_order", { ascending: true });
+
+      if (error) {
+        throw new Error(`Failed to fetch key staff: ${error.message}`);
+      }
+
+      return { success: true, data };
+    } catch (error) {
+      console.error("Fetch key staff error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
+      };
+    }
+  }
+
+  // Update staff member
+  static async updateStaff(id: string, updates: Partial<Staff>) {
+    try {
+      const { data, error } = await supabase
+        .from("staff")
+        .update(updates)
+        .eq("id", id)
+        .select()
+        .single();
+
+      if (error) {
+        throw new Error(`Failed to update staff member: ${error.message}`);
+      }
+
+      return { success: true, data };
+    } catch (error) {
+      console.error("Update staff error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
+      };
+    }
+  }
+
+  // Delete staff member
+  static async deleteStaff(id: string) {
+    try {
+      const { error } = await supabase.from("staff").delete().eq("id", id);
+
+      if (error) {
+        throw new Error(`Failed to delete staff member: ${error.message}`);
+      }
+
+      return { success: true };
+    } catch (error) {
+      console.error("Delete staff error:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
+      };
+    }
+  }
+
+  // Toggle staff active status
+  static async toggleStaffStatus(id: string, isActive: boolean) {
+    try {
+      const { data, error } = await supabase
+        .from("staff")
+        .update({ is_active: isActive })
+        .eq("id", id)
+        .select()
+        .single();
+
+      if (error) {
+        throw new Error(`Failed to toggle staff status: ${error.message}`);
+      }
+
+      return { success: true, data };
+    } catch (error) {
+      console.error("Toggle staff status error:", error);
       return {
         success: false,
         error:

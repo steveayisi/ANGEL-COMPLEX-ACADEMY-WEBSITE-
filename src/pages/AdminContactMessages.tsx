@@ -182,6 +182,12 @@ export default function AdminContactMessages() {
             <button className="py-4 px-1 border-b-2 border-blue-600 text-blue-600 font-medium">
               Contact Messages
             </button>
+            <button
+              onClick={() => navigate("/admin/staff")}
+              className="py-4 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+            >
+              Staff Management
+            </button>
           </div>
         </div>
       </nav>
