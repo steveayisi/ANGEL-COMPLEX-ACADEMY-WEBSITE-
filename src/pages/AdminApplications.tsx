@@ -201,8 +201,12 @@ const AdminApplications = () => {
               className="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium"
             >
               News & Updates
-            </button>
-          </div>
+            </button>            <button
+              onClick={() => navigate("/admin/contact-messages")}
+              className="px-4 py-3 text-gray-600 hover:text-gray-800 font-medium"
+            >
+              Contact Messages
+            </button>          </div>
         </div>
 
         {/* Status Message */}
