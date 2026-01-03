@@ -311,6 +311,8 @@ export default function AdminStaff() {
                     Full Name *
                   </label>
                   <input
+                    id="staff-name"
+                    name="name"
                     type="text"
                     required
                     value={formData.name}
@@ -326,6 +328,8 @@ export default function AdminStaff() {
                     Job Title *
                   </label>
                   <input
+                    id="staff-title"
+                    name="title"
                     type="text"
                     required
                     value={formData.title}
@@ -341,6 +345,8 @@ export default function AdminStaff() {
                     Education *
                   </label>
                   <input
+                    id="staff-education"
+                    name="education"
                     type="text"
                     required
                     value={formData.education}
@@ -357,6 +363,8 @@ export default function AdminStaff() {
                     Experience *
                   </label>
                   <input
+                    id="staff-experience"
+                    name="experience"
                     type="text"
                     required
                     value={formData.experience}
@@ -373,6 +381,8 @@ export default function AdminStaff() {
                     Specialization *
                   </label>
                   <input
+                    id="staff-specialization"
+                    name="specialization"
                     type="text"
                     required
                     value={formData.specialization}
@@ -392,6 +402,8 @@ export default function AdminStaff() {
                     Display Order *
                   </label>
                   <input
+                    id="staff-display-order"
+                    name="display_order"
                     type="number"
                     required
                     value={formData.display_order}
@@ -410,6 +422,8 @@ export default function AdminStaff() {
                     Email
                   </label>
                   <input
+                    id="staff-email"
+                    name="email"
                     type="email"
                     value={formData.email}
                     onChange={(e) =>
@@ -424,6 +438,8 @@ export default function AdminStaff() {
                     Phone
                   </label>
                   <input
+                    id="staff-phone"
+                    name="phone"
                     type="tel"
                     value={formData.phone}
                     onChange={(e) =>
@@ -439,6 +455,8 @@ export default function AdminStaff() {
                   Bio
                 </label>
                 <textarea
+                  id="staff-bio"
+                  name="bio"
                   value={formData.bio}
                   onChange={(e) =>
                     setFormData({ ...formData, bio: e.target.value })
@@ -454,6 +472,8 @@ export default function AdminStaff() {
                   Achievements (one per line)
                 </label>
                 <textarea
+                  id="staff-achievements"
+                  name="achievements"
                   value={formData.achievements}
                   onChange={(e) =>
                     setFormData({ ...formData, achievements: e.target.value })
